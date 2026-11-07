@@ -1,0 +1,19 @@
+# build outputs
+node_modules/
+dist/
+build/
+out/
+target/
+obj/
+dex/
+*.apk
+*.aab
+*.keystore
+*.idsig
+__pycache__/
+*.pyc
+.godot/
+.emergent/
+phases/
+audit-*/
+*.zip

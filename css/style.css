@@ -1,0 +1,834 @@
+/* STARFALL Phase 1 — dark space theme, HUD, menus, touch controls */
+
+/* ================= ui-fonts-wiring phase ================= */
+/* OFL fonts declared in index.html <head> (@font-face + preloads).
+ * --font-display: titles, headings, system readouts (Orbitron).
+ * --font-ui: everything else (Rajdhani). Canvas ctx.font strings are
+ * untouched (js/ scope belongs to a later phase). */
+:root {
+  --font-display: 'Orbitron', sans-serif;
+  --font-ui: 'Rajdhani', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none;
+  background: #04060f; color: #dfe8ff;
+  font-family: var(--font-ui);
+  touch-action: none; user-select: none; -webkit-user-select: none;
+  position: fixed; inset: 0;
+}
+#game { position: fixed; inset: 0; display: block; touch-action: none; }
+.hidden { display: none !important; }
+
+/* ---------- buttons ---------- */
+.btn {
+  background: rgba(20, 32, 58, 0.92); color: #dfe8ff;
+  border: 1px solid #3fa9ff; border-radius: 8px;
+  padding: 10px 14px; font: inherit; font-size: 14px; cursor: pointer;
+}
+.btn:active { background: rgba(50, 80, 140, 0.95); }
+.btn:disabled { opacity: 0.35; cursor: default; }
+.btn.big { display: block; width: 100%; margin: 8px 0; font-size: 16px; padding: 13px; }
+.btn.small { font-size: 12px; padding: 7px 9px; }
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
+#hud-top {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: calc(8px + env(safe-area-inset-top)) 10px 0 10px;
+}
+#bars { width: 34%; max-width: 220px; pointer-events: none; }
+.bar {
+  height: 12px; background: rgba(10, 16, 32, 0.8);
+  border: 1px solid #2a3c5f; border-radius: 6px; margin-bottom: 5px; overflow: hidden;
+}
+.bar-fill {
+  height: 100%; width: 100%; transform-origin: left center;
+  transform: scaleX(1); border-radius: 5px;
+}
+#shield-fill { background: #3fa9ff; }
+#hull-fill { background: #3ddc5f; }
+/* hud-declutter-1: the center stats block is a compact TWO-row stack —
+ * system name on its own line, then ONE nowrap line of credits/ore/cargo.
+ * Total height stays under ~44px so it can never reach the canvas-drawn
+ * reactor stance tabs at y=64 (js/ship.js). Standing/karma/XP readouts
+ * are display:none here and mirrored into the MENU drawer's stats strip
+ * (#drawer-stats) by SF.HUD.update (js/hud.js). */
+#hud-stats {
+  text-align: center; font-size: 12px; pointer-events: none;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline;
+  column-gap: 2px; max-width: 44vw;
+}
+#hud-system { font-family: var(--font-display); font-size: 14px; font-weight: bold; letter-spacing: 2px; margin-bottom: 0; flex: 1 1 100%; }
+/* hud-sprite-improve: with the minimap hidden (the default), flex
+ * space-between pushed this block right of true center — its measured
+ * center sat ~85px right at 800px wide. Pin it to the real center on
+ * wide screens; narrow portrait keeps the flex flow (no room for
+ * bars + centered stats + minimap side by side there). */
+@media (min-width: 561px) {
+  #hud-stats {
+    position: absolute; left: 50%; top: calc(8px + env(safe-area-inset-top));
+    transform: translateX(-50%);
+  }
+}
+.stat { display: inline-block; margin: 0 3px; color: #ffd23f; white-space: nowrap; }
+#hud-factions, #hud-karma, #hud-skills { display: none !important; }
+#drawer-stats {
+  font-size: 11px; line-height: 1.5; color: #9fd8ff; text-align: left;
+  padding: 2px 2px 8px; border-bottom: 1px solid #1d3054; white-space: normal;
+}
+/* ui-cleanup-drawer: faction/karma as compact chips */
+.faction-stat, .karma-stat {
+  border: 1px solid rgba(120, 150, 190, 0.45); border-radius: 10px;
+  padding: 1px 6px; font-size: 11px; line-height: 1.6; white-space: nowrap;
+}
+#hud-minimap-wrap { position: relative; pointer-events: none; }
+#minimap { width: 96px; height: 96px; border-radius: 6px; pointer-events: none; }
+#minimap.minimap-hidden { display: none; }
+#btn-minimap-toggle {
+  position: absolute; right: -4px; bottom: -4px; pointer-events: auto;
+  width: 44px; height: 44px; border-radius: 50%; padding: 0; font-size: 16px;
+  background: rgba(20, 32, 58, 0.92); color: #dfe8ff; border: 1px solid #3fa9ff; cursor: pointer;
+}
+/* ui-cleanup-drawer: MENU button + slim weapon chip replace the left column.
+ * Both sit under the shield/hull bars on the left edge, clear of the centered
+ * reactor stance widget (ship.js canvas-drawn at y=64..~132) and the tracker. */
+#btn-menu {
+  position: absolute; top: calc(62px + env(safe-area-inset-top)); left: 8px;
+  min-height: 44px; pointer-events: auto; white-space: nowrap; z-index: 46;
+  /* z 46 keeps MENU clickable above the open drawer (z 45) so it toggles closed */
+}
+#weapon-btn.slim-chip {
+  position: absolute; top: calc(114px + env(safe-area-inset-top)); left: 8px;
+  min-height: 44px; padding: 6px 10px; font-size: 12px; white-space: nowrap;
+  max-width: 44vw; overflow: hidden; text-overflow: ellipsis; pointer-events: auto; z-index: 21;
+}
+/* ui-cleanup-drawer: slide-over drawer. #hud-buttons (with all runtime-appended
+ * buttons: skills / nav-hold / target-lock) lives inside the drawer, so every
+ * button keeps its id, listener and shortcut — DOM nodes are moved, never rebuilt. */
+#menu-scrim {
+  position: fixed; inset: 0; z-index: 44; pointer-events: auto;
+  background: rgba(0, 0, 0, 0.35);
+}
+#menu-drawer {
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 45; pointer-events: auto;
+  width: min(248px, 72vw);
+  padding: calc(10px + env(safe-area-inset-top)) 12px calc(14px + env(safe-area-inset-bottom));
+  background: rgba(8, 14, 30, 0.97); border-right: 1px solid #2a4a7a;
+  transform: translateX(-105%); transition: transform 0.22s ease-out;
+  display: flex; flex-direction: column; gap: 8px;
+}
+#menu-drawer.open { transform: translateX(0); }
+/* when open, push the button stack below the floating ☰ MENU pill (z 46) */
+#menu-drawer.open #hud-buttons { padding-top: 58px; }
+#drawer-head {
+  font-family: var(--font-display); font-size: 13px; letter-spacing: 3px;
+  color: #7df9ff; padding: 6px 2px 10px; border-bottom: 1px solid #1d3054;
+}
+#hud-buttons { display: flex; flex-direction: column; gap: 8px; pointer-events: auto; }
+#hud-buttons .btn { min-height: 44px; text-align: left; }
+#weapon-btn { border-width: 2px; }
+
+/* ---------- touch controls ---------- */
+#joystick {
+  position: fixed; width: 120px; height: 120px; z-index: 25; pointer-events: none;
+  border: 2px solid rgba(120, 170, 255, 0.5); border-radius: 50%;
+  background: rgba(40, 70, 130, 0.15);
+}
+#joy-knob {
+  position: absolute; left: 50%; top: 50%; width: 52px; height: 52px;
+  margin: -26px 0 0 -26px; border-radius: 50%;
+  background: rgba(120, 170, 255, 0.45); border: 2px solid rgba(160, 200, 255, 0.8);
+}
+#btn-fire {
+  /* hud-declutter-1: safe-area inset on the right too, and enough margin
+   * that the input.js contextual scale (1.15x while targeted) stays
+   * on-screen: 104px * 1.15 = ~120px visual, extends ~8px past the box. */
+  position: fixed; right: calc(24px + env(safe-area-inset-right)); bottom: calc(30px + env(safe-area-inset-bottom));
+  width: 96px; height: 96px; border-radius: 50%; z-index: 26;
+  background: rgba(200, 60, 50, 0.35); border: 2px solid rgba(255, 110, 90, 0.85);
+  color: #ffd9d2; font: inherit; font-size: 15px; font-weight: bold;
+  display: none;
+}
+@media (pointer: coarse) { #btn-fire { display: block; } }
+/* hud-declutter-1: the survey PING button (#btn-survey inside #survey-wrap)
+ * is runtime-created by js/gameplay.js with inline right:134px — with the
+ * old 112px FIRE circle the two exactly touched and read as one blob on
+ * the phone screenshots. !important here beats the inline style and
+ * guarantees a >=20px gap from FIRE at any viewport width. */
+#survey-wrap {
+  right: calc(152px + env(safe-area-inset-right)) !important;
+  bottom: calc(38px + env(safe-area-inset-bottom)) !important;
+  z-index: 26;
+}
+
+/* ---------- dock prompt ---------- */
+/* hud-edge-issues-followup: bottom 140px -> 108px and max-width 86vw, so the
+ * prompt no longer sits on the centered ship + the canvas-drawn 'SS Starfall'
+ * name label on short landscape viewports (overlapped at bottom:140px per the
+ * user's 2026-10-20 S25 screenshot). The ship label itself is canvas-drawn in
+ * js/ship.js and is deliberately untouched — only this DOM prompt moved. */
+#dock-prompt {
+  position: fixed; bottom: calc(108px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%); z-index: 26;
+  max-width: 86vw;
+}
+
+/* ---------- toast + damage ---------- */
+#toast {
+  position: fixed; top: 22%; left: 50%; transform: translateX(-50%);
+  background: rgba(10, 18, 36, 0.92); border: 1px solid #3fa9ff; border-radius: 8px;
+  padding: 10px 18px; font-family: var(--font-ui); font-size: 14px; z-index: 40; pointer-events: none;
+  white-space: nowrap; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+}
+.toast-anim { animation: toastIn 0.25s ease-out; }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+#damage-flash {
+  position: fixed; inset: 0; z-index: 30; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(255, 40, 30, 0.55) 100%);
+  opacity: 0; transition: opacity 0.3s;
+}
+
+/* ---------- overlays ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(2, 4, 10, 0.82);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; overflow-y: auto;
+}
+.panel {
+  background: #0a1226; border: 1px solid #2a4a7a; border-radius: 12px;
+  padding: 22px; width: 100%; max-width: 420px; text-align: center;
+  max-height: 92vh; overflow-y: auto;
+}
+.panel.wide { max-width: min(1020px, 96vw); text-align: left; }
+.game-title {
+  font-family: var(--font-display);
+  font-size: 44px; letter-spacing: 8px; color: #7df9ff;
+  text-shadow: 0 0 18px rgba(125, 249, 255, 0.6); margin-bottom: 4px;
+}
+.game-title.red { color: #ff5e3a; text-shadow: 0 0 18px rgba(255, 94, 58, 0.6); }
+/* twelve-hour-wave4 readability: #5f7ba6 on panel #0a1226 measured
+ * 4.32:1 (below WCAG AA 4.5 for normal text); #7d93b8 measures 5.98:1.
+ * Same hue family, no layout change. */
+.subtitle { color: #7d93b8; font-size: 12px; letter-spacing: 3px; margin-bottom: 14px; }
+.help { font-size: 12px; color: #8fa3c8; line-height: 1.7; margin-bottom: 16px; }
+.dim { color: #7d93b8; font-size: 12px; }
+.panel h2 { font-family: var(--font-display); letter-spacing: 2px; margin-bottom: 12px; font-size: 18px; }
+
+/* ---------- store ---------- */
+.store-head {
+  font-family: var(--font-display);
+  margin: 14px 0 6px; font-size: 12px; letter-spacing: 2px; color: #7df9ff;
+  border-bottom: 1px solid #1e3358; padding-bottom: 4px;
+}
+.store-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 8px 4px; border-bottom: 1px solid rgba(30, 51, 88, 0.5);
+}
+.store-info { display: flex; gap: 8px; align-items: flex-start; text-align: left; }
+.store-name { font-size: 14px; font-weight: bold; }
+.store-desc { font-size: 11px; color: #8fa3c8; margin-top: 2px; line-height: 1.45; }
+.store-btn { white-space: nowrap; font-size: 12px; }
+.store-credits { font-size: 14px; margin: 6px 0; color: #ffd23f; }
+.tier-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+  margin-top: 3px; flex: none;
+}
+.disabled-row { opacity: 0.55; }
+
+/* ---------- weapon mods (weapons-arsenal) ---------- */
+.mod-slot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 7px 4px; border-bottom: 1px dashed rgba(180, 92, 255, 0.4);
+}
+#mods-modal { border: 1px solid #b45cff; border-radius: 10px; padding: 10px 12px; background: rgba(24, 14, 44, 0.96); }
+#mods-modal h3 { margin-bottom: 6px; font-size: 15px; }
+
+/* ---------- starmap ---------- */
+#starmap-systems { position: relative; height: 300px; margin: 8px 0; }
+.sys-node {
+  position: absolute; transform: translate(-50%, -50%);
+  background: rgba(14, 24, 48, 0.95); border: 1px solid #3fa9ff; border-radius: 10px;
+  padding: 10px 12px; color: #dfe8ff; font: inherit; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 96px;
+}
+.sys-node:disabled { cursor: default; }
+.sys-node.current { border-color: #ffd23f; box-shadow: 0 0 12px rgba(255, 210, 63, 0.4); }
+.sys-node.unknown { border-style: dashed; opacity: 0.75; }
+.sys-dot { width: 18px; height: 18px; border-radius: 50%; }
+.sys-name { font-family: var(--font-display); font-size: 13px; font-weight: bold; }
+.sys-you { font-size: 9px; color: #ffd23f; letter-spacing: 1px; }
+#starmap-info { margin: 6px 0 10px; }
+
+/* ---------- ship builder (Phase 2) ---------- */
+/* builder-drag-fix (2026-10-23): the builder panel is VIEWPORT-LOCKED.
+ * Before this, .panel scrolled as one ~2000px column at phone sizes: the
+ * palette sat ~1300px down, the grid scrolled off-screen to reach it,
+ * and a pointer drag cannot scroll mid-drag — drag-and-drop from the
+ * palette was physically impossible on the phone. Now the panel is a
+ * flex column of exactly viewport height that never scrolls; the grid
+ * column is pinned (builder.js layout() sizes the canvas to fit), the
+ * side column is a flex stack, and the PARTS INVENTORY is its own
+ * internally scrolling region. */
+#overlay-builder { overflow: hidden; padding: 8px; }
+#overlay-builder .panel {
+  display: flex; flex-direction: column;
+  height: calc(100vh - 16px); height: calc(100dvh - 16px);
+  max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px);
+  /* overflow: clip (where supported) makes the panel not a scroll
+   * container AT ALL — even a programmatic scrollIntoView from focusing
+   * an input inside cannot shift it. hidden is the fallback. */
+  overflow: hidden; overflow: clip; padding: 12px;
+}
+#overlay-builder .panel h2 { flex: none; margin-bottom: 2px; font-size: 15px; }
+#builder-main { display: flex; gap: 12px; flex: 1 1 auto; min-height: 0; }
+/* grid-wrap must size to the canvas, not to the longest unwrapped text
+ * line in the power/valid blocks (builder-viewport-fix, 2026-10-23) */
+#builder-grid-wrap { flex: none; min-width: 0; max-width: 100%; width: 312px; }
+#builder-canvas {
+  display: block; border: 1px solid #2a4a7a; border-radius: 8px;
+  background: #070d1d; touch-action: none; cursor: crosshair;
+}
+#builder-power { margin-top: 6px; font-size: 11px; }
+.power-line { display: flex; justify-content: space-between; margin-bottom: 2px; }
+.power-bar {
+  height: 6px; background: rgba(10, 16, 32, 0.8);
+  border: 1px solid #2a3c5f; border-radius: 3px; overflow: hidden;
+}
+.power-use { height: 100%; background: linear-gradient(90deg, #3ddc5f, #ffd23f, #ff5e3a); }
+#builder-valid { margin-top: 6px; font-size: 13px; font-weight: bold; }
+.ok { color: #3ddc5f; }
+.bad { color: #ff5e3a; }
+/* side column: flex stack. Stats / tools / inspector sit above the
+ * palette with capped heights and their own internal scroll (from
+ * .builder-box); the palette takes ALL remaining height and scrolls
+ * internally; compare/coach/identity/presets/A-B live in #builder-extras,
+ * a second capped scroll region below the palette. Nothing in the side
+ * column can push the grid away or eat the palette's scroll area. */
+#builder-side {
+  flex: 1 1 auto; min-width: 0; min-height: 0;
+  display: flex; flex-direction: column;
+}
+#builder-side > .store-head { flex: none; }
+.builder-box {
+  background: rgba(10, 18, 36, 0.7); border: 1px solid #1e3358; border-radius: 8px;
+  padding: 8px; margin-bottom: 8px; font-size: 12px; max-height: 220px; overflow-y: auto;
+}
+/* Flex shrink in a column distributes loss proportional to base size,
+ * which would crush the small boxes to ~20px slivers (measured). So
+ * stats/tools are RIGID at capped heights, the palette and extras absorb
+ * the shrink, and when a part is selected (body class from renderSelected)
+ * stats/tools yield so the inspector keeps a usable height. */
+#builder-side > .builder-box { flex: 0 1 auto; min-height: 0; }
+#builder-side > #builder-stats { flex: 0 0 auto; max-height: 13%; }
+#builder-side > #builder-tools { flex: 0 0 auto; max-height: 22%; }
+#builder-tools .store-head { margin-top: 0; }
+#builder-side > #builder-selected { max-height: 44%; min-height: 34px; }
+#builder-side.has-selected #builder-stats { flex-shrink: 1; max-height: 15%; }
+#builder-side.has-selected #builder-tools { flex-shrink: 1; }
+#builder-side > #builder-palette {
+  flex: 1 1 auto; min-height: 48px; max-height: none;
+  overflow-y: auto; touch-action: pan-y;
+  -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+}
+#builder-side > #builder-extras {
+  flex: 0 1 auto; min-height: 18px; max-height: 32%;
+  overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+}
+/* builder-drag-fix: stat rows pair up two-per-row — the side column is
+ * height-starved on phones and six stacked rows cost ~130px */
+.bstat-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; }
+/* builder-drag-fix: tools buttons — one swipeable row on short screens,
+ * wrapped rows when there is vertical room */
+.tools-row { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-height: 500px) {
+  .tools-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
+  .tools-row .btn { flex: none; }
+  .tools-hint { display: none; }
+}
+/* inside the extras scroll region the boxes size naturally (one scroll,
+ * not nested scrolls) */
+#builder-extras .builder-box { max-height: none; overflow: visible; }
+#builder-actions { flex: none; display: flex; gap: 8px; margin-top: 2px; }
+#builder-actions .btn.big { flex: 1; width: auto; margin: 0; padding: 10px; }
+.bstat-row { display: flex; justify-content: space-between; padding: 2px 0; }
+.bstat-row span { color: #8fa3c8; }
+.bstat-row b { color: #dfe8ff; }
+.pal-type { font-size: 10px; letter-spacing: 2px; color: #7d93b8; margin: 6px 0 2px; }
+/* twelve-hour-wave4: set-bonus rows had no CSS at all, so the maker name
+ * and the bonus text ran together ("2pc+5%"). Flex + gap only; no
+ * layout redesign. */
+.setbonus-list { display: flex; flex-direction: column; gap: 2px; }
+.setbonus-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.pal-item {
+  display: flex; align-items: center; gap: 6px; padding: 7px 6px;
+  border-bottom: 1px solid rgba(30, 51, 88, 0.5); cursor: grab;
+  /* builder-drag-fix: pan-y — a vertical touch-drag SCROLLS the palette
+   * (the browser takes the gesture over and fires pointercancel, which
+   * the builder treats as a clean no-op). It was touch-action:none, which
+   * made the palette unscrollable by touch: its items fill the whole
+   * region, so there was nothing grabbable to scroll with. Dragging a
+   * part out still works with mouse and with mostly-horizontal touch
+   * drags toward the grid; tap-to-place covers every case. */
+  touch-action: pan-y;
+}
+.pal-item:active { cursor: grabbing; background: rgba(50, 80, 140, 0.3); }
+/* builder-drag-fix: armed tap-to-place part */
+.pal-item.armed {
+  background: rgba(61, 220, 95, 0.16);
+  outline: 2px solid #3ddc5f; outline-offset: -2px;
+}
+.pal-name { flex: 1; font-size: 12px; }
+.pal-count { color: #ffd23f; font-size: 12px; }
+#builder-arm-hint { letter-spacing: 0; color: #3ddc5f; }
+.sel-head { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 13px; }
+.sel-stars { color: #ffd23f; font-size: 14px; margin: 2px 0; }
+.sel-btns { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.sel-btns .btn { flex: 1; white-space: nowrap; }
+#builder-ghost {
+  position: fixed; z-index: 99; pointer-events: none;
+  background: rgba(20, 32, 58, 0.95); border: 1px solid #3fa9ff; border-radius: 6px;
+  padding: 6px 10px; font-size: 12px; white-space: nowrap;
+}
+#builder-launch:disabled { opacity: 0.35; }
+/* builder-drag-fix: in-builder modal (replaces window.confirm/prompt/
+ * alert, which are dead in the Android shell — no WebChromeClient) */
+#builder-modal {
+  position: fixed; inset: 0; z-index: 120;
+  background: rgba(2, 4, 10, 0.72);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+#builder-modal .bm-box {
+  background: #0a1226; border: 1px solid #3fa9ff; border-radius: 10px;
+  padding: 14px; width: 100%; max-width: 440px;
+}
+#bm-msg { font-size: 13px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 10px; }
+#bm-input, #bm-text {
+  width: 100%; box-sizing: border-box; margin-bottom: 10px;
+  background: #0b1330; border: 1px solid #2c3d6b; color: #dfe8ff;
+  padding: 8px; border-radius: 6px; font: inherit; font-size: 13px;
+}
+#builder-modal .bm-btns { display: flex; gap: 8px; }
+#builder-modal .bm-btns .btn { flex: 1; }
+/* dialog-sweep-1: SF.Dialog shared modal (js/dialog.js) — the game-wide
+ * replacement for window.confirm/prompt/alert outside the builder;
+ * palette copied from #builder-modal above so both modals feel identical */
+#sf-dialog {
+  /* beta2 merge fix: must sit above the tutorial card (z-index 10000, injected
+   * by js/hud.js) or confirm dialogs opened during tutorial steps — e.g. the
+   * buy step's Sell Ore confirm — render underneath it and cannot be tapped.
+   * Everything else in the 8000-9999 band is pointer-events:none, so 10001
+   * only ever outranks the tutorial card. */
+  position: fixed; inset: 0; z-index: 10001;
+  background: rgba(2, 4, 10, 0.72);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+#sf-dialog .sf-dialog-box {
+  background: #0a1226; border: 1px solid #3fa9ff; border-radius: 10px;
+  padding: 14px; width: 100%; max-width: 440px;
+}
+#sf-dialog-msg { font-size: 13px; line-height: 1.5; white-space: pre-wrap; margin-bottom: 10px; }
+#sf-dialog-input {
+  width: 100%; box-sizing: border-box; margin-bottom: 10px;
+  background: #0b1330; border: 1px solid #2c3d6b; color: #dfe8ff;
+  padding: 8px; border-radius: 6px; font: inherit; font-size: 13px;
+}
+#sf-dialog .sf-dialog-btns { display: flex; gap: 8px; }
+#sf-dialog .sf-dialog-btns .btn { flex: 1; }
+/* stacked mode: portrait only. Landscape phones (the S25 at ~800 CSS px
+ * wide included) have width to spare and no height — stacking them was
+ * the original defect. Must match isStacked() in builder.js. */
+@media (max-width: 900px) and (orientation: portrait) {
+  #builder-main { flex-direction: column; }
+  #builder-side { width: 100%; }
+  /* stacked: the grid column hugs the canvas instead of stretching to
+   * the longest text line */
+  #builder-grid-wrap { width: min-content; }
+}
+
+/* ---------- Phase 3: crew & boarding ---------- */
+.crew-stat { margin-top: 4px; font-size: 14px; }
+#board-prompt {
+  position: fixed; bottom: calc(210px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%); z-index: 26;
+}
+#board-prompt .btn { border-color: #ff9d5e; color: #ffb37e; }
+#rescue-prompt {
+  position: fixed; bottom: calc(210px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%); z-index: 26;
+}
+#rescue-prompt .btn { border-color: #ff5e3a; color: #ff8c7a; animation: toastIn 0.4s ease-out; }
+#rescue-prompt .btn:disabled { opacity: 0.45; }
+/* ---------- Phase 5: secrets ---------- */
+#investigate-prompt {
+  position: fixed; bottom: calc(280px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%); z-index: 26;
+}
+#investigate-prompt .btn { border-color: #b45cff; color: #d3a6ff; }
+.cargo-stat { margin-top: 4px; font-size: 14px; }
+.board-top { text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
+.board-cols { display: flex; gap: 8px; align-items: stretch; margin-bottom: 10px; }
+.board-side { flex: 1; background: rgba(8,14,30,0.7); border: 1px solid #2a3a5f;
+  border-radius: 8px; padding: 8px; min-width: 0; }
+.board-side h3 { font-size: 13px; letter-spacing: 1px; margin-bottom: 4px; }
+.board-power { color: #ffd23f; font-size: 13px; margin-bottom: 6px; }
+.board-list { max-height: 220px; overflow-y: auto; }
+.board-member { font-size: 12px; padding: 3px 0; border-bottom: 1px solid rgba(60,80,120,0.25);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.board-vs { align-self: center; font-size: 28px; padding: 0 2px; }
+@media (max-width: 700px) {
+  .board-vs { font-size: 20px; }
+  .board-list { max-height: 160px; }
+}
+
+/* ---------- twin-stick aim stick (distinct orange accent) ---------- */
+#aimstick {
+  position: fixed; width: 120px; height: 120px; z-index: 25; pointer-events: none;
+  border: 2px solid rgba(255, 157, 94, 0.55); border-radius: 50%;
+  background: rgba(130, 70, 40, 0.15);
+}
+#aim-knob {
+  position: absolute; left: 50%; top: 50%; width: 52px; height: 52px;
+  margin: -26px 0 0 -26px; border-radius: 50%;
+  background: rgba(255, 157, 94, 0.45); border: 2px solid rgba(255, 190, 140, 0.85);
+}
+
+/* ---------- Phase 4: factions / quests / companions / NPCs ---------- */
+.faction-stat { font-size: 11px; letter-spacing: 0.5px; }
+.karma-stat { font-size: 11px; }
+.dlg-text { font-family: var(--font-ui); font-size: 14px; line-height: 1.5; margin: 10px 0 14px; white-space: pre-line; }
+.dlg-choice { font-family: var(--font-ui); margin: 6px 0; font-size: 13px; text-align: left; }
+.comp-portrait { font-size: 26px; line-height: 1; padding: 2px 4px 0 0; }
+.comp-btns { display: flex; flex-direction: column; gap: 6px; }
+#overlay-dialogue .panel { max-width: 520px; }
+#quests-body .store-row { margin-bottom: 6px; }
+@media (max-width: 700px) {
+  .faction-stat { font-size: 10px; }
+  .comp-portrait { font-size: 22px; }
+}
+
+/* ---------- story-campaign phase: intro cinematic ---------- */
+.intro-panel { text-align: center; }
+.intro-kicker { font-family: var(--font-display); font-size: 12px; letter-spacing: 6px; color: #7df9ff; margin-bottom: 4px; }
+.intro-title { font-family: var(--font-display); font-size: 34px; letter-spacing: 8px; color: #ffd23f; margin: 0 0 12px;
+  text-shadow: 0 0 18px rgba(255, 210, 63, 0.45); }
+.intro-text { font-size: 16px; line-height: 1.65; min-height: 130px; max-width: 560px;
+  margin: 0 auto 10px; color: #dfe9f5; white-space: pre-line; }
+.intro-fade { animation: introfade 1.1s ease-in; }
+@keyframes introfade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.intro-dots { color: #7d93b8; letter-spacing: 4px; margin-bottom: 12px; font-size: 12px; }
+.intro-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* ================= planets-facilities phase ================= */
+
+/* News ticker (bottom of the HUD) */
+#news-ticker {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  background: rgba(6,10,24,0.92); border-top: 1px solid #2a3a5f;
+  color: #9fd8ff; font: 12px/1.6 var(--font-ui); white-space: nowrap;
+  overflow: hidden; z-index: 40; padding: 3px 0;
+}
+#news-ticker-track { display: inline-block; width: 100%; overflow: hidden; }
+#news-ticker-inner { display: inline-block; padding-left: 100%; }
+#news-ticker-inner.ticker-run { animation: ticker-scroll 30s linear infinite; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Planet surface view */
+.surface-art {
+  border-radius: 8px; padding: 28px 16px 20px; margin-bottom: 10px;
+  text-align: center; border: 1px solid #2a3a5f;
+}
+.surface-name { font: bold 22px var(--font-display); color: #fff; letter-spacing: 2px; }
+.surface-desc { font: 13px var(--font-ui); color: #cfe4ff; margin-top: 6px; }
+
+/* Black market panel */
+#overlay-blackmarket .panel { border-color: #b45cff; }
+
+/* Audio settings (audio-expansion) */
+#overlay-settings { z-index: 70; }
+.set-row { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.set-row label { width: 74px; text-align: left; font-size: 12px; letter-spacing: 2px; color: #8fa3c8; }
+.set-row input[type=range] { flex: 1; accent-color: #7df9ff; height: 28px; }
+.set-val { width: 34px; text-align: right; font-size: 12px; color: #7df9ff; }
+.set-actions { justify-content: center; gap: 12px; margin-top: 16px; }
+
+/* ================= mobile-ux-pass phase ================= */
+/* News ticker must not swallow touches along the bottom edge. */
+#news-ticker { pointer-events: none; }
+
+/* Dead-zone rings inside the stick bases (calibrated: base 120px, move
+ * dead zone 0.12 -> 14px ring, aim dead zone 0.25 -> 30px ring). */
+#joystick::after, #aimstick::after {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  border: 1px dashed rgba(160, 200, 255, 0.35); border-radius: 50%;
+  pointer-events: none;
+}
+#joystick::after { width: 14px; height: 14px; margin: -7px 0 0 -7px; }
+#aimstick::after { width: 30px; height: 30px; margin: -15px 0 0 -15px; border-color: rgba(255, 190, 140, 0.4); }
+
+/* 44px minimum touch targets on coarse pointers (S25-class screens). */
+@media (pointer: coarse) {
+  .btn { min-height: 44px; min-width: 44px; }
+  .btn.small { font-size: 13px; padding: 10px 12px; }
+  #btn-fire { width: 104px; height: 104px; } /* hud-declutter-1: was 112px */
+  .pal-item { min-height: 44px; }
+  .sys-node { min-height: 64px; }
+  .store-btn { min-height: 44px; }
+}
+
+/* Short viewports (landscape phones): the menu drawer scrolls so all buttons
+ * (incl. runtime-added ones like skills) stay reachable in a short viewport. */
+@media (pointer: coarse) and (max-height: 520px) {
+  #hud-buttons {
+    gap: 4px;
+    max-height: calc(100vh - 120px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+  #hud-buttons .btn.small { min-height: 40px; font-size: 11px; padding: 6px 8px; }
+  #minimap { width: 64px; height: 64px; }
+  #bars { max-width: 170px; }
+}
+
+/* Narrow portrait phones (<=480px, e.g. 390x844): scale HUD safely. */
+@media (max-width: 480px) {
+  #minimap { width: 72px; height: 72px; }
+  #hud-stats { font-size: 11px; }
+  .stat { margin: 0 4px; }
+  #hud-system { font-size: 13px; letter-spacing: 1px; }
+  #bars { width: 30%; }
+  .btn.big { font-size: 15px; }
+  #toast { font-size: 13px; padding: 9px 14px; }
+}
+
+/* ---------- quest-tracker: objective tracker line ----------
+ * hud-center-stack-fix: moved to top:178px so the banner clears the
+ * canvas-drawn center stack (ship.js: reactor tabs y=64-84, heat bar 88-95,
+ * formation widget y=106 + chips 26px + hint line ~y=144). The small-screen
+ * overrides keep the same 178px top — the canvas stack is fixed in CSS px
+ * at every viewport width, so any smaller top would re-collide with it.
+ * Centered, max-width keeps it off the center playfield. */
+#hud-tracker {
+  position: absolute;
+  top: calc(178px + env(safe-area-inset-top));
+  left: 50%; transform: translateX(-50%);
+  max-width: 58vw;
+  padding: 4px 14px;
+  background: rgba(6, 12, 26, 0.72);
+  border: 1px solid rgba(255, 210, 63, 0.55);
+  border-radius: 14px;
+  color: #ffd23f;
+  font-size: 13px; font-weight: bold; letter-spacing: 0.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none; z-index: 21;
+}
+#tracker-overlay { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
+/* mobile-ux-pass breakpoints: scale the tracker line with the small screens */
+@media (max-width: 700px) {
+  #hud-tracker { font-size: 12px; top: calc(178px + env(safe-area-inset-top)); padding: 3px 11px; }
+}
+@media (max-width: 480px) {
+  #hud-tracker { font-size: 11px; top: calc(178px + env(safe-area-inset-top)); padding: 2px 9px; max-width: 88vw; }
+}
+
+/* ---------- TITLE v2 (title-screen-v2 phase) ---------- */
+#title-stars {
+  position: fixed; inset: 0; z-index: 40; display: block;
+  pointer-events: none; background: #020409;
+}
+#title-nebula {
+  position: fixed; inset: 0; z-index: 41; display: block;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 18% 12%, rgba(88, 40, 160, 0.34), transparent 70%),
+    radial-gradient(50% 40% at 85% 78%, rgba(20, 90, 140, 0.30), transparent 70%),
+    radial-gradient(35% 30% at 70% 18%, rgba(190, 60, 120, 0.16), transparent 70%);
+  animation: nebula-breathe 14s ease-in-out infinite alternate;
+}
+@keyframes nebula-breathe {
+  from { opacity: 0.75; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1.04); }
+}
+#overlay-title.title-overlay {
+  background: rgba(2, 4, 10, 0.42); /* let canvas + nebula show through */
+  z-index: 42;
+}
+.title-panel {
+  background: rgba(8, 14, 30, 0.88);
+  border: 1px solid #2f5a9a;
+  box-shadow: 0 0 44px rgba(60, 140, 255, 0.18), inset 0 0 30px rgba(20, 50, 110, 0.25);
+}
+.title-anim {
+  animation: title-glow 3.2s ease-in-out infinite;
+}
+@keyframes title-glow {
+  0%, 100% { text-shadow: 0 0 14px rgba(125, 249, 255, 0.45); }
+  50%      { text-shadow: 0 0 30px rgba(125, 249, 255, 0.85), 0 0 60px rgba(80, 160, 255, 0.4); }
+}
+#pilots-box {
+  border: 1px solid #1e3358; border-radius: 8px;
+  background: rgba(4, 8, 18, 0.6);
+  padding: 8px 10px; margin: 4px 0 12px; text-align: left;
+}
+.pilots-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.pilots-title { font-size: 12px; letter-spacing: 2px; color: #7df9ff; }
+.pilots-note { margin: 6px 0 0; text-align: center; }
+.pilot-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 8px; border-radius: 6px; cursor: pointer;
+  border: 1px solid transparent; font-size: 14px;
+}
+.pilot-row:hover { background: rgba(30, 51, 88, 0.4); }
+.pilot-row.active { border-color: #2f5a9a; background: rgba(30, 60, 110, 0.35); }
+.pilot-name { color: #dfeaff; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pilot-badge { font-size: 11px; color: #7d93b8; white-space: nowrap; }
+.pilot-spacer { flex: 1; }
+.pilot-tool { padding: 3px 8px; font-size: 12px; }
+.pilot-tool.danger { opacity: 0.75; }
+.title-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+#patch-notes {
+  margin-top: 10px; text-align: left; max-height: 220px; overflow-y: auto;
+  border: 1px solid #1e3358; border-radius: 8px; padding: 10px 12px;
+  background: rgba(4, 8, 18, 0.6);
+}
+.notes-ver { color: #7df9ff; font-size: 13px; letter-spacing: 1px; margin: 8px 0 4px; font-weight: bold; }
+.notes-ver:first-child { margin-top: 0; }
+.notes-list { margin: 0 0 4px 18px; padding: 0; font-size: 12px; color: #8fa3c8; line-height: 1.6; }
+@media (max-width: 480px) {
+  .title-panel { padding: 16px 12px; }
+  .title-anim { font-size: 34px; letter-spacing: 5px; }
+}
+
+/* beta-newgame: short-viewport title compaction (phone landscape).
+ * Spacing-only, title-panel scope only: pulls NEW GAME, CONTINUE and
+ * the pilots box fully above the fold at 800x390. Nothing is hidden
+ * or removed — the help text and title-row still follow below and
+ * remain reachable by the panel's existing scroll. */
+@media (max-height: 450px) {
+  #overlay-title .title-panel { padding: 12px 12px; }
+  #overlay-title .title-anim { font-size: 34px; letter-spacing: 5px; }
+  #overlay-title .subtitle { margin-bottom: 8px; }
+  #overlay-title #pilots-box { margin: 4px 0 8px; padding: 6px 10px; }
+  #overlay-title .help { margin-bottom: 8px; }
+}
+
+/* ================= ui-art-wiring: wire ui-art-pack-1 assets =================
+ * Title hero art + HUD icon set. index.html + css/ only; no js changes.
+ * Icon labels that JS rewrites via textContent (btn-mute, title-mute,
+ * btn-minimap-toggle) intentionally keep their emoji glyphs; CSS backgrounds
+ * survive textContent rewrites, but the glyph would overlap the icon, so
+ * those buttons are left alone. Tracker banner content is also JS-rewritten,
+ * so its emblem is CSS-only. */
+#title-hero {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: url(../assets/ui/title_hero.webp) center 30%/cover no-repeat;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+}
+#overlay-title .title-panel { position: relative; z-index: 1; }
+
+/* icon buttons: 20px icon at the left, room for it, left-aligned text */
+.btn.icon-map, .btn.icon-quests, .btn.icon-settings, .btn.icon-play {
+  background-repeat: no-repeat; background-position: 8px center; background-size: 20px 20px;
+  padding-left: 34px; text-align: left;
+}
+.btn.icon-map      { background-image: url(../assets/ui/emblem_map.png); }
+.btn.icon-quests   { background-image: url(../assets/ui/emblem_quest.png); }
+.btn.icon-settings { background-image: url(../assets/ui/icons/b_settings.png); }
+.btn.icon-play     { background-image: url(../assets/ui/icons/b_play.png); }
+
+/* tracker banner: quest emblem; banner text is JS-rewritten (hud.js), so the
+ * icon must be CSS-only to survive updates */
+#hud-tracker {
+  background-image: url(../assets/ui/emblem_quest.png);
+  background-repeat: no-repeat; background-position: 7px center; background-size: 16px 16px;
+  padding-left: 28px;
+}
+
+/* ---------- combat-context-hud (2026-10-22): two-mode HUD ----------
+ * SF.CombatHUD (js/hud.js) owns the mode; body.hud-explore is the
+ * default / at-rest mode, body.hud-combat is entered on fire / damage /
+ * aggro / boss / raid and exits after 7s idle. Fades are ~500ms.
+ * Slots are NOT touched here — raid 88 / tracker 178 / boss 216 stand. */
+/* hull/shield: always present, dimmed only while the ship is at 100%
+ * hull AND shield (body.cb-undamaged, set by SF.CombatHUD) at rest. */
+#bars { transition: opacity 0.5s ease; }
+body.hud-explore.cb-undamaged #bars { opacity: 0.45; }
+/* boss + raid bars: display stays with their owners (BossBar/RaidBar);
+ * this is the opacity gate that keeps them out of exploration. Their
+ * runtime styles set no transition/opacity, so these rules compose. */
+#boss-bar, #raid-bar { transition: opacity 0.5s ease; }
+body.hud-explore #boss-bar, body.hud-explore #raid-bar { opacity: 0; }
+/* kill feed: history is combat-relative. Fresh kills happen in combat
+ * mode (the kill implies fire), so they always flash at full opacity;
+ * the container fades out with exploration. */
+#killfeed { transition: opacity 0.5s ease; }
+body.hud-explore #killfeed { opacity: 0; }
+/* cooldown pips canvas: SF.CombatHUD fades it via element opacity and
+ * stops painting at rest; the transition smooths both directions. */
+#cooldown-pips-overlay { transition: opacity 0.5s ease; }
+/* threat-legend chip (lives in the minimap wrap): combat-relative.
+ * The !important is required: SF.ThreatLegend.paintChip sets the chip's
+ * opacity INLINE (1 / 0.55 for its own expanded state), which beats any
+ * non-important stylesheet rule. In combat the gate lifts and the
+ * chip's own inline opacity rules again. */
+#threat-legend-chip { transition: opacity 0.5s ease; }
+body.hud-explore #threat-legend-chip { opacity: 0 !important; pointer-events: none; }
+
+/* ---------- station-districts-1: station district hub ----------
+ * Docking lands on a grid of district tiles instead of one long scroll.
+ * Tiles are big thumb targets (>=64px; 96px here), safe-area aware via
+ * the panel's own padding; the grid collapses to one column on narrow
+ * portrait phones. Desktop shares the same 2-col grid and order. */
+.district-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 4px 0 10px;
+}
+.district-tile {
+  font: inherit; color: #dfe8ff; text-align: left; cursor: pointer;
+  background: rgba(16, 28, 54, 0.92); border: 1px solid #2f5a9a; border-radius: 10px;
+  padding: 12px; min-height: 96px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.district-tile:active { background: rgba(50, 80, 140, 0.95); }
+.district-tile.last { border-color: #ffd23f; box-shadow: 0 0 10px rgba(255, 210, 63, 0.25); }
+.district-tile.locked { border-style: dashed; opacity: 0.62; }
+.district-name { font-family: var(--font-display); font-size: 14px; letter-spacing: 1px; color: #7df9ff; }
+.district-tile.locked .district-name { color: #8fa3c8; }
+.district-flavor { font-size: 12px; color: #8fa3c8; line-height: 1.4; }
+.district-chip { margin-top: auto; font-size: 11px; color: #ffd23f; letter-spacing: 0.5px; }
+.district-bar {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.district-bar .btn { min-height: 44px; }
+.district-title { font-family: var(--font-display); font-size: 14px; letter-spacing: 2px; color: #7df9ff; }
+.district-tabs {
+  display: flex; gap: 6px; overflow-x: auto; margin-bottom: 10px; padding-bottom: 2px;
+  position: sticky; top: 0; z-index: 5; background: #0a1226;
+  -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+}
+.district-tab {
+  flex: 0 0 auto; min-height: 44px; padding: 0 14px; cursor: pointer;
+  font: inherit; font-size: 13px; letter-spacing: 1px; color: #cfe0ff;
+  background: rgba(16, 28, 54, 0.92); border: 1px solid #2f5a9a; border-radius: 8px;
+}
+.district-tab.active { background: rgba(50, 80, 140, 0.95); color: #fff; border-color: #7df9ff; }
+@media (max-width: 480px) {
+  .district-grid { grid-template-columns: 1fr; }
+  .district-tile { min-height: 76px; }
+}
+
+/* ---------- c-hud-polish: hub quick actions ----------
+ * Tiles are <div>s (not <button>s) so a quick-action button can nest
+ * inside: the body div opens the district, the action button acts
+ * alone (stopPropagation in js). Locked den tile stays a <button>. */
+.district-tile-body { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.district-tile-action { margin-top: 6px; }

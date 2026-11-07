@@ -1,0 +1,1794 @@
+{
+ "factions/krathul-battleship.png": {
+  "src": "ships-v2/factions/krathul-battleship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23987,
+  "src_bytes": 1409690
+ },
+ "factions/krathul-battleship-512.png": {
+  "src": "ships-v2/factions/krathul-battleship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24011,
+  "src_bytes": 318043
+ },
+ "factions/krathul-carrier.png": {
+  "src": "ships-v2/factions/krathul-carrier.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24298,
+  "src_bytes": 1376652
+ },
+ "factions/krathul-carrier-512.png": {
+  "src": "ships-v2/factions/krathul-carrier-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24333,
+  "src_bytes": 326798
+ },
+ "factions/krathul-destroyer.png": {
+  "src": "ships-v2/factions/krathul-destroyer.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20408,
+  "src_bytes": 1115983
+ },
+ "factions/krathul-destroyer-512.png": {
+  "src": "ships-v2/factions/krathul-destroyer-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20471,
+  "src_bytes": 259457
+ },
+ "factions/krathul-mothership.png": {
+  "src": "ships-v2/factions/krathul-mothership.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28166,
+  "src_bytes": 1626533
+ },
+ "factions/krathul-mothership-512.png": {
+  "src": "ships-v2/factions/krathul-mothership-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28117,
+  "src_bytes": 360693
+ },
+ "factions/krathul-starship.png": {
+  "src": "ships-v2/factions/krathul-starship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17502,
+  "src_bytes": 1027720
+ },
+ "factions/krathul-starship-512.png": {
+  "src": "ships-v2/factions/krathul-starship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17605,
+  "src_bytes": 223697
+ },
+ "factions/terran-bomber.png": {
+  "src": "ships-v2/factions/terran-bomber.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26570,
+  "src_bytes": 1623702
+ },
+ "factions/terran-bomber-512.png": {
+  "src": "ships-v2/factions/terran-bomber-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26756,
+  "src_bytes": 366034
+ },
+ "factions/terran-escape-pod.png": {
+  "src": "ships-v2/factions/terran-escape-pod.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15024,
+  "src_bytes": 486075
+ },
+ "factions/terran-escape-pod-512.png": {
+  "src": "ships-v2/factions/terran-escape-pod-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15008,
+  "src_bytes": 197292
+ },
+ "factions/terran-shuttle.png": {
+  "src": "ships-v2/factions/terran-shuttle.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24094,
+  "src_bytes": 1309119
+ },
+ "factions/terran-shuttle-512.png": {
+  "src": "ships-v2/factions/terran-shuttle-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24233,
+  "src_bytes": 328632
+ },
+ "factions/terran-starship.png": {
+  "src": "ships-v2/factions/terran-starship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18016,
+  "src_bytes": 1537420
+ },
+ "factions/terran-starship-512.png": {
+  "src": "ships-v2/factions/terran-starship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18061,
+  "src_bytes": 246947
+ },
+ "factions/terran-transport.png": {
+  "src": "ships-v2/factions/terran-transport.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15029,
+  "src_bytes": 1377833
+ },
+ "factions/terran-transport-512.png": {
+  "src": "ships-v2/factions/terran-transport-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15050,
+  "src_bytes": 204050
+ },
+ "factions/xalthar-battleship.png": {
+  "src": "ships-v2/factions/xalthar-battleship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21309,
+  "src_bytes": 1663102
+ },
+ "factions/xalthar-battleship-512.png": {
+  "src": "ships-v2/factions/xalthar-battleship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21427,
+  "src_bytes": 277791
+ },
+ "factions/xalthar-carrier.png": {
+  "src": "ships-v2/factions/xalthar-carrier.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28022,
+  "src_bytes": 2414487
+ },
+ "factions/xalthar-carrier-512.png": {
+  "src": "ships-v2/factions/xalthar-carrier-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28082,
+  "src_bytes": 373208
+ },
+ "factions/xalthar-destroyer.png": {
+  "src": "ships-v2/factions/xalthar-destroyer.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17846,
+  "src_bytes": 1036107
+ },
+ "factions/xalthar-destroyer-512.png": {
+  "src": "ships-v2/factions/xalthar-destroyer-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17916,
+  "src_bytes": 219474
+ },
+ "factions/xalthar-mothership.png": {
+  "src": "ships-v2/factions/xalthar-mothership.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19064,
+  "src_bytes": 1338216
+ },
+ "factions/xalthar-mothership-512.png": {
+  "src": "ships-v2/factions/xalthar-mothership-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19140,
+  "src_bytes": 244269
+ },
+ "factions/xalthar-starship.png": {
+  "src": "ships-v2/factions/xalthar-starship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20239,
+  "src_bytes": 1375633
+ },
+ "factions/xalthar-starship-512.png": {
+  "src": "ships-v2/factions/xalthar-starship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20317,
+  "src_bytes": 247394
+ },
+ "factions/zeta-battleship.png": {
+  "src": "ships-v2/factions/zeta-battleship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26787,
+  "src_bytes": 1725514
+ },
+ "factions/zeta-battleship-512.png": {
+  "src": "ships-v2/factions/zeta-battleship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26984,
+  "src_bytes": 363478
+ },
+ "factions/zeta-carrier.png": {
+  "src": "ships-v2/factions/zeta-carrier.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25030,
+  "src_bytes": 1670460
+ },
+ "factions/zeta-carrier-512.png": {
+  "src": "ships-v2/factions/zeta-carrier-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25045,
+  "src_bytes": 336699
+ },
+ "factions/zeta-destroyer.png": {
+  "src": "ships-v2/factions/zeta-destroyer.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14123,
+  "src_bytes": 773977
+ },
+ "factions/zeta-destroyer-512.png": {
+  "src": "ships-v2/factions/zeta-destroyer-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14229,
+  "src_bytes": 172027
+ },
+ "factions/zeta-mothership.png": {
+  "src": "ships-v2/factions/zeta-mothership.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24506,
+  "src_bytes": 1750766
+ },
+ "factions/zeta-mothership-512.png": {
+  "src": "ships-v2/factions/zeta-mothership-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24658,
+  "src_bytes": 332526
+ },
+ "factions/zeta-starship.png": {
+  "src": "ships-v2/factions/zeta-starship.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25080,
+  "src_bytes": 1666110
+ },
+ "factions/zeta-starship-512.png": {
+  "src": "ships-v2/factions/zeta-starship-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25236,
+  "src_bytes": 335905
+ },
+ "celestial/planets/binary.png": {
+  "src": "celestial-v2/planets/binary.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21006,
+  "src_bytes": 1685899
+ },
+ "celestial/planets/binary-512.png": {
+  "src": "celestial-v2/planets/binary-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20956,
+  "src_bytes": 274003
+ },
+ "celestial/planets/desert.png": {
+  "src": "celestial-v2/planets/desert.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27254,
+  "src_bytes": 2499278
+ },
+ "celestial/planets/desert-512.png": {
+  "src": "celestial-v2/planets/desert-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27257,
+  "src_bytes": 465580
+ },
+ "celestial/planets/gas-giant.png": {
+  "src": "celestial-v2/planets/gas-giant.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21468,
+  "src_bytes": 1723441
+ },
+ "celestial/planets/gas-giant-512.png": {
+  "src": "celestial-v2/planets/gas-giant-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21460,
+  "src_bytes": 357173
+ },
+ "celestial/planets/ice.png": {
+  "src": "celestial-v2/planets/ice.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26179,
+  "src_bytes": 3034853
+ },
+ "celestial/planets/ice-512.png": {
+  "src": "celestial-v2/planets/ice-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26230,
+  "src_bytes": 467976
+ },
+ "celestial/planets/ice-giant.png": {
+  "src": "celestial-v2/planets/ice-giant.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17522,
+  "src_bytes": 1053883
+ },
+ "celestial/planets/ice-giant-512.png": {
+  "src": "celestial-v2/planets/ice-giant-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17567,
+  "src_bytes": 303072
+ },
+ "celestial/planets/lava.png": {
+  "src": "celestial-v2/planets/lava.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27773,
+  "src_bytes": 2355159
+ },
+ "celestial/planets/lava-512.png": {
+  "src": "celestial-v2/planets/lava-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27850,
+  "src_bytes": 465570
+ },
+ "celestial/planets/life-bearing.png": {
+  "src": "celestial-v2/planets/life-bearing.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33511,
+  "src_bytes": 2365020
+ },
+ "celestial/planets/life-bearing-512.png": {
+  "src": "celestial-v2/planets/life-bearing-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33471,
+  "src_bytes": 470335
+ },
+ "celestial/planets/ocean.png": {
+  "src": "celestial-v2/planets/ocean.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23902,
+  "src_bytes": 2097954
+ },
+ "celestial/planets/ocean-512.png": {
+  "src": "celestial-v2/planets/ocean-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23985,
+  "src_bytes": 408014
+ },
+ "celestial/planets/ringed.png": {
+  "src": "celestial-v2/planets/ringed.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21972,
+  "src_bytes": 2390857
+ },
+ "celestial/planets/ringed-512.png": {
+  "src": "celestial-v2/planets/ringed-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21930,
+  "src_bytes": 340000
+ },
+ "celestial/planets/terrestrial.png": {
+  "src": "celestial-v2/planets/terrestrial.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32911,
+  "src_bytes": 2401048
+ },
+ "celestial/planets/terrestrial-512.png": {
+  "src": "celestial-v2/planets/terrestrial-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32985,
+  "src_bytes": 460096
+ },
+ "celestial/planets/tidal.png": {
+  "src": "celestial-v2/planets/tidal.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34432,
+  "src_bytes": 2322291
+ },
+ "celestial/planets/tidal-512.png": {
+  "src": "celestial-v2/planets/tidal-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34476,
+  "src_bytes": 487885
+ },
+ "celestial/moons/binary.png": {
+  "src": "celestial-v2/moons/binary.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 16054,
+  "src_bytes": 1381335
+ },
+ "celestial/moons/binary-512.png": {
+  "src": "celestial-v2/moons/binary-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 16091,
+  "src_bytes": 259525
+ },
+ "celestial/moons/captured-asteroid.png": {
+  "src": "celestial-v2/moons/captured-asteroid.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26944,
+  "src_bytes": 2084254
+ },
+ "celestial/moons/captured-asteroid-512.png": {
+  "src": "celestial-v2/moons/captured-asteroid-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26994,
+  "src_bytes": 410698
+ },
+ "celestial/moons/crystal.png": {
+  "src": "celestial-v2/moons/crystal.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28291,
+  "src_bytes": 2822374
+ },
+ "celestial/moons/crystal-512.png": {
+  "src": "celestial-v2/moons/crystal-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28298,
+  "src_bytes": 483425
+ },
+ "celestial/moons/gas.png": {
+  "src": "celestial-v2/moons/gas.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15395,
+  "src_bytes": 972178
+ },
+ "celestial/moons/gas-512.png": {
+  "src": "celestial-v2/moons/gas-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15458,
+  "src_bytes": 291004
+ },
+ "celestial/moons/icy.png": {
+  "src": "celestial-v2/moons/icy.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25780,
+  "src_bytes": 2289022
+ },
+ "celestial/moons/icy-512.png": {
+  "src": "celestial-v2/moons/icy-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25871,
+  "src_bytes": 452547
+ },
+ "celestial/moons/lava.png": {
+  "src": "celestial-v2/moons/lava.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 30483,
+  "src_bytes": 2678225
+ },
+ "celestial/moons/lava-512.png": {
+  "src": "celestial-v2/moons/lava-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 30565,
+  "src_bytes": 469506
+ },
+ "celestial/moons/ocean.png": {
+  "src": "celestial-v2/moons/ocean.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25935,
+  "src_bytes": 2694397
+ },
+ "celestial/moons/ocean-512.png": {
+  "src": "celestial-v2/moons/ocean-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26007,
+  "src_bytes": 394999
+ },
+ "celestial/moons/planetoid.png": {
+  "src": "celestial-v2/moons/planetoid.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28020,
+  "src_bytes": 2168271
+ },
+ "celestial/moons/planetoid-512.png": {
+  "src": "celestial-v2/moons/planetoid-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28126,
+  "src_bytes": 427422
+ },
+ "celestial/moons/ring.png": {
+  "src": "celestial-v2/moons/ring.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22058,
+  "src_bytes": 1928714
+ },
+ "celestial/moons/ring-512.png": {
+  "src": "celestial-v2/moons/ring-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22121,
+  "src_bytes": 345031
+ },
+ "celestial/moons/rocky.png": {
+  "src": "celestial-v2/moons/rocky.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23648,
+  "src_bytes": 2064417
+ },
+ "celestial/moons/rocky-512.png": {
+  "src": "celestial-v2/moons/rocky-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23684,
+  "src_bytes": 406983
+ },
+ "celestial/moons/volcanic.png": {
+  "src": "celestial-v2/moons/volcanic.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34331,
+  "src_bytes": 3115676
+ },
+ "celestial/moons/volcanic-512.png": {
+  "src": "celestial-v2/moons/volcanic-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34343,
+  "src_bytes": 518931
+ },
+ "celestial/asteroids/carbonaceous.png": {
+  "src": "celestial-v2/asteroids/carbonaceous.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24117,
+  "src_bytes": 1403020
+ },
+ "celestial/asteroids/carbonaceous-512.png": {
+  "src": "celestial-v2/asteroids/carbonaceous-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 24267,
+  "src_bytes": 384627
+ },
+ "celestial/asteroids/composite.png": {
+  "src": "celestial-v2/asteroids/composite.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33169,
+  "src_bytes": 2576034
+ },
+ "celestial/asteroids/composite-512.png": {
+  "src": "celestial-v2/asteroids/composite-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33273,
+  "src_bytes": 497009
+ },
+ "celestial/asteroids/crystal.png": {
+  "src": "celestial-v2/asteroids/crystal.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34524,
+  "src_bytes": 2111874
+ },
+ "celestial/asteroids/crystal-512.png": {
+  "src": "celestial-v2/asteroids/crystal-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34504,
+  "src_bytes": 462758
+ },
+ "celestial/asteroids/fragmented.png": {
+  "src": "celestial-v2/asteroids/fragmented.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29192,
+  "src_bytes": 1743839
+ },
+ "celestial/asteroids/fragmented-512.png": {
+  "src": "celestial-v2/asteroids/fragmented-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29356,
+  "src_bytes": 421607
+ },
+ "celestial/asteroids/ice-rich.png": {
+  "src": "celestial-v2/asteroids/ice-rich.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28481,
+  "src_bytes": 3109328
+ },
+ "celestial/asteroids/ice-rich-512.png": {
+  "src": "celestial-v2/asteroids/ice-rich-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28964,
+  "src_bytes": 469005
+ },
+ "celestial/asteroids/metallic.png": {
+  "src": "celestial-v2/asteroids/metallic.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33643,
+  "src_bytes": 1975354
+ },
+ "celestial/asteroids/metallic-512.png": {
+  "src": "celestial-v2/asteroids/metallic-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33740,
+  "src_bytes": 485429
+ },
+ "celestial/asteroids/radioactive.png": {
+  "src": "celestial-v2/asteroids/radioactive.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29025,
+  "src_bytes": 2621566
+ },
+ "celestial/asteroids/radioactive-512.png": {
+  "src": "celestial-v2/asteroids/radioactive-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29064,
+  "src_bytes": 474799
+ },
+ "celestial/asteroids/silicate.png": {
+  "src": "celestial-v2/asteroids/silicate.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25556,
+  "src_bytes": 2333388
+ },
+ "celestial/asteroids/silicate-512.png": {
+  "src": "celestial-v2/asteroids/silicate-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25619,
+  "src_bytes": 416374
+ },
+ "celestial/asteroids/sponge.png": {
+  "src": "celestial-v2/asteroids/sponge.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26971,
+  "src_bytes": 2422439
+ },
+ "celestial/asteroids/sponge-512.png": {
+  "src": "celestial-v2/asteroids/sponge-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27035,
+  "src_bytes": 429980
+ },
+ "celestial/asteroids/volcanic.png": {
+  "src": "celestial-v2/asteroids/volcanic.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31144,
+  "src_bytes": 2002730
+ },
+ "celestial/asteroids/volcanic-512.png": {
+  "src": "celestial-v2/asteroids/volcanic-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31380,
+  "src_bytes": 423990
+ },
+ "celestial/fields/belt.png": {
+  "src": "celestial-v2/fields/belt.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 10338,
+  "src_bytes": 1693268
+ },
+ "celestial/fields/belt-512.png": {
+  "src": "celestial-v2/fields/belt-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 10451,
+  "src_bytes": 130532
+ },
+ "celestial/fields/cloud.png": {
+  "src": "celestial-v2/fields/cloud.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31235,
+  "src_bytes": 2372241
+ },
+ "celestial/fields/cloud-512.png": {
+  "src": "celestial-v2/fields/cloud-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31801,
+  "src_bytes": 482556
+ },
+ "celestial/fields/collision.png": {
+  "src": "celestial-v2/fields/collision.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 35682,
+  "src_bytes": 2519761
+ },
+ "celestial/fields/collision-512.png": {
+  "src": "celestial-v2/fields/collision-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 35824,
+  "src_bytes": 486061
+ },
+ "celestial/fields/dense.png": {
+  "src": "celestial-v2/fields/dense.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29686,
+  "src_bytes": 3768711
+ },
+ "celestial/fields/dense-512.png": {
+  "src": "celestial-v2/fields/dense-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29968,
+  "src_bytes": 465875
+ },
+ "celestial/fields/ice.png": {
+  "src": "celestial-v2/fields/ice.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27768,
+  "src_bytes": 2812887
+ },
+ "celestial/fields/ice-512.png": {
+  "src": "celestial-v2/fields/ice-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27774,
+  "src_bytes": 347011
+ },
+ "celestial/fields/ring.png": {
+  "src": "celestial-v2/fields/ring.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28938,
+  "src_bytes": 1760724
+ },
+ "celestial/fields/ring-512.png": {
+  "src": "celestial-v2/fields/ring-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29235,
+  "src_bytes": 403091
+ },
+ "celestial/fields/scattered.png": {
+  "src": "celestial-v2/fields/scattered.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 5938,
+  "src_bytes": 260730
+ },
+ "celestial/fields/scattered-512.png": {
+  "src": "celestial-v2/fields/scattered-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 6002,
+  "src_bytes": 67119
+ },
+ "celestial/fields/spiral.png": {
+  "src": "celestial-v2/fields/spiral.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27010,
+  "src_bytes": 1615347
+ },
+ "celestial/fields/spiral-512.png": {
+  "src": "celestial-v2/fields/spiral-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27222,
+  "src_bytes": 362328
+ },
+ "celestial/fields/stream.png": {
+  "src": "celestial-v2/fields/stream.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12552,
+  "src_bytes": 965100
+ },
+ "celestial/fields/stream-512.png": {
+  "src": "celestial-v2/fields/stream-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12555,
+  "src_bytes": 162128
+ },
+ "celestial/fields/trojan.png": {
+  "src": "celestial-v2/fields/trojan.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17634,
+  "src_bytes": 1553879
+ },
+ "celestial/fields/trojan-512.png": {
+  "src": "celestial-v2/fields/trojan-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17693,
+  "src_bytes": 229712
+ },
+ "celestial/objects/black-hole.png": {
+  "src": "celestial-v2/objects/black-hole.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12264,
+  "src_bytes": 1103903
+ },
+ "celestial/objects/black-hole-512.png": {
+  "src": "celestial-v2/objects/black-hole-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12306,
+  "src_bytes": 183582
+ },
+ "celestial/objects/comet.png": {
+  "src": "celestial-v2/objects/comet.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22708,
+  "src_bytes": 1674927
+ },
+ "celestial/objects/comet-512.png": {
+  "src": "celestial-v2/objects/comet-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22837,
+  "src_bytes": 302790
+ },
+ "celestial/objects/derelict.png": {
+  "src": "celestial-v2/objects/derelict.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25277,
+  "src_bytes": 1142472
+ },
+ "celestial/objects/derelict-512.png": {
+  "src": "celestial-v2/objects/derelict-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25485,
+  "src_bytes": 340955
+ },
+ "celestial/objects/nebula.png": {
+  "src": "celestial-v2/objects/nebula.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31611,
+  "src_bytes": 2129844
+ },
+ "celestial/objects/nebula-512.png": {
+  "src": "celestial-v2/objects/nebula-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31748,
+  "src_bytes": 385431
+ },
+ "celestial/objects/planetary-ring.png": {
+  "src": "celestial-v2/objects/planetary-ring.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14427,
+  "src_bytes": 1201431
+ },
+ "celestial/objects/planetary-ring-512.png": {
+  "src": "celestial-v2/objects/planetary-ring-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14482,
+  "src_bytes": 210660
+ },
+ "celestial/objects/pulsar.png": {
+  "src": "celestial-v2/objects/pulsar.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12527,
+  "src_bytes": 1045076
+ },
+ "celestial/objects/pulsar-512.png": {
+  "src": "celestial-v2/objects/pulsar-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12531,
+  "src_bytes": 149639
+ },
+ "celestial/objects/quasar.png": {
+  "src": "celestial-v2/objects/quasar.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18590,
+  "src_bytes": 1433926
+ },
+ "celestial/objects/quasar-512.png": {
+  "src": "celestial-v2/objects/quasar-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18504,
+  "src_bytes": 214669
+ },
+ "celestial/objects/space-station.png": {
+  "src": "celestial-v2/objects/space-station.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23128,
+  "src_bytes": 1981447
+ },
+ "celestial/objects/space-station-512.png": {
+  "src": "celestial-v2/objects/space-station-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23254,
+  "src_bytes": 323240
+ },
+ "celestial/objects/supernova.png": {
+  "src": "celestial-v2/objects/supernova.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32612,
+  "src_bytes": 2839085
+ },
+ "celestial/objects/supernova-512.png": {
+  "src": "celestial-v2/objects/supernova-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32563,
+  "src_bytes": 430124
+ },
+ "celestial/objects/wormhole.png": {
+  "src": "celestial-v2/objects/wormhole.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 37063,
+  "src_bytes": 3157905
+ },
+ "celestial/objects/wormhole-512.png": {
+  "src": "celestial-v2/objects/wormhole-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 37159,
+  "src_bytes": 502869
+ },
+ "biomes/canyon.png": {
+  "src": "celestial-v2/biomes/canyon.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 149099,
+  "src_bytes": 5529581
+ },
+ "biomes/canyon-512.png": {
+  "src": "celestial-v2/biomes/canyon-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 149099,
+  "src_bytes": 676682
+ },
+ "biomes/caves.png": {
+  "src": "celestial-v2/biomes/caves.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 102559,
+  "src_bytes": 4373167
+ },
+ "biomes/caves-512.png": {
+  "src": "celestial-v2/biomes/caves-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 102559,
+  "src_bytes": 603255
+ },
+ "biomes/crater.png": {
+  "src": "celestial-v2/biomes/crater.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 132008,
+  "src_bytes": 5213547
+ },
+ "biomes/crater-512.png": {
+  "src": "celestial-v2/biomes/crater-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 132008,
+  "src_bytes": 691302
+ },
+ "biomes/desert.png": {
+  "src": "celestial-v2/biomes/desert.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 101350,
+  "src_bytes": 4429692
+ },
+ "biomes/desert-512.png": {
+  "src": "celestial-v2/biomes/desert-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 101350,
+  "src_bytes": 583238
+ },
+ "biomes/forest.png": {
+  "src": "celestial-v2/biomes/forest.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 149304,
+  "src_bytes": 5741158
+ },
+ "biomes/forest-512.png": {
+  "src": "celestial-v2/biomes/forest-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 149304,
+  "src_bytes": 669717
+ },
+ "biomes/ice-caves.png": {
+  "src": "celestial-v2/biomes/ice-caves.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 143246,
+  "src_bytes": 4741256
+ },
+ "biomes/ice-caves-512.png": {
+  "src": "celestial-v2/biomes/ice-caves-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 143246,
+  "src_bytes": 647496
+ },
+ "biomes/mountain.png": {
+  "src": "celestial-v2/biomes/mountain.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 164347,
+  "src_bytes": 5752398
+ },
+ "biomes/mountain-512.png": {
+  "src": "celestial-v2/biomes/mountain-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 164347,
+  "src_bytes": 739014
+ },
+ "biomes/ocean.png": {
+  "src": "celestial-v2/biomes/ocean.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 188788,
+  "src_bytes": 5516750
+ },
+ "biomes/ocean-512.png": {
+  "src": "celestial-v2/biomes/ocean-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 188788,
+  "src_bytes": 699964
+ },
+ "biomes/tundra.png": {
+  "src": "celestial-v2/biomes/tundra.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 127129,
+  "src_bytes": 4942380
+ },
+ "biomes/tundra-512.png": {
+  "src": "celestial-v2/biomes/tundra-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 127129,
+  "src_bytes": 641347
+ },
+ "biomes/volcanic.png": {
+  "src": "celestial-v2/biomes/volcanic.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 112040,
+  "src_bytes": 4643664
+ },
+ "biomes/volcanic-512.png": {
+  "src": "celestial-v2/biomes/volcanic-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 112040,
+  "src_bytes": 617802
+ },
+ "biomes/wasteland.png": {
+  "src": "celestial-v2/biomes/wasteland.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 140492,
+  "src_bytes": 5725096
+ },
+ "biomes/wasteland-512.png": {
+  "src": "celestial-v2/biomes/wasteland-512.png",
+  "w": 512,
+  "h": 512,
+  "bytes": 140492,
+  "src_bytes": 723871
+ },
+ "fx/collectibles/ammo.png": {
+  "src": "fx-v2/collectibles/ammo.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23077,
+  "src_bytes": 1182994
+ },
+ "fx/collectibles/ammo-512.png": {
+  "src": "fx-v2/collectibles/ammo-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23145,
+  "src_bytes": 317900
+ },
+ "fx/collectibles/cargo-crate.png": {
+  "src": "fx-v2/collectibles/cargo-crate.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20835,
+  "src_bytes": 1420055
+ },
+ "fx/collectibles/cargo-crate-512.png": {
+  "src": "fx-v2/collectibles/cargo-crate-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20897,
+  "src_bytes": 316690
+ },
+ "fx/collectibles/credits.png": {
+  "src": "fx-v2/collectibles/credits.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22829,
+  "src_bytes": 1344910
+ },
+ "fx/collectibles/credits-512.png": {
+  "src": "fx-v2/collectibles/credits-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22906,
+  "src_bytes": 325948
+ },
+ "fx/collectibles/data-core.png": {
+  "src": "fx-v2/collectibles/data-core.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26704,
+  "src_bytes": 1648183
+ },
+ "fx/collectibles/data-core-512.png": {
+  "src": "fx-v2/collectibles/data-core-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26680,
+  "src_bytes": 418028
+ },
+ "fx/collectibles/fuel.png": {
+  "src": "fx-v2/collectibles/fuel.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14834,
+  "src_bytes": 873199
+ },
+ "fx/collectibles/fuel-512.png": {
+  "src": "fx-v2/collectibles/fuel-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14865,
+  "src_bytes": 214978
+ },
+ "fx/collectibles/relic.png": {
+  "src": "fx-v2/collectibles/relic.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28404,
+  "src_bytes": 2650349
+ },
+ "fx/collectibles/relic-512.png": {
+  "src": "fx-v2/collectibles/relic-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 28387,
+  "src_bytes": 421106
+ },
+ "fx/effects/engine-trail.png": {
+  "src": "fx-v2/effects/engine-trail.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 8161,
+  "src_bytes": 809162
+ },
+ "fx/effects/engine-trail-512.png": {
+  "src": "fx-v2/effects/engine-trail-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 8172,
+  "src_bytes": 84584
+ },
+ "fx/effects/galaxy.png": {
+  "src": "fx-v2/effects/galaxy.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31270,
+  "src_bytes": 2172328
+ },
+ "fx/effects/galaxy-512.png": {
+  "src": "fx-v2/effects/galaxy-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31305,
+  "src_bytes": 437393
+ },
+ "fx/effects/shield-glow.png": {
+  "src": "fx-v2/effects/shield-glow.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14717,
+  "src_bytes": 1204851
+ },
+ "fx/effects/shield-glow-512.png": {
+  "src": "fx-v2/effects/shield-glow-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14738,
+  "src_bytes": 224994
+ },
+ "fx/effects/sun.png": {
+  "src": "fx-v2/effects/sun.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27362,
+  "src_bytes": 2358030
+ },
+ "fx/effects/sun-512.png": {
+  "src": "fx-v2/effects/sun-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27846,
+  "src_bytes": 388599
+ },
+ "fx/explosions/ion.png": {
+  "src": "fx-v2/explosions/ion.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31767,
+  "src_bytes": 2123457
+ },
+ "fx/explosions/ion-512.png": {
+  "src": "fx-v2/explosions/ion-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 31761,
+  "src_bytes": 400216
+ },
+ "fx/explosions/large.png": {
+  "src": "fx-v2/explosions/large.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 37908,
+  "src_bytes": 2680579
+ },
+ "fx/explosions/large-512.png": {
+  "src": "fx-v2/explosions/large-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 37741,
+  "src_bytes": 466509
+ },
+ "fx/explosions/medium.png": {
+  "src": "fx-v2/explosions/medium.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32945,
+  "src_bytes": 2021863
+ },
+ "fx/explosions/medium-512.png": {
+  "src": "fx-v2/explosions/medium-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 32898,
+  "src_bytes": 418469
+ },
+ "fx/explosions/shockwave.png": {
+  "src": "fx-v2/explosions/shockwave.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18366,
+  "src_bytes": 950012
+ },
+ "fx/explosions/shockwave-512.png": {
+  "src": "fx-v2/explosions/shockwave-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18354,
+  "src_bytes": 245504
+ },
+ "fx/explosions/small.png": {
+  "src": "fx-v2/explosions/small.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22843,
+  "src_bytes": 823517
+ },
+ "fx/explosions/small-512.png": {
+  "src": "fx-v2/explosions/small-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 22748,
+  "src_bytes": 266597
+ },
+ "fx/explosions/smoke.png": {
+  "src": "fx-v2/explosions/smoke.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 20819,
+  "src_bytes": 1481066
+ },
+ "fx/explosions/smoke-512.png": {
+  "src": "fx-v2/explosions/smoke-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21149,
+  "src_bytes": 316185
+ },
+ "fx/mines-drones/attack-drone.png": {
+  "src": "fx-v2/mines-drones/attack-drone.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 16618,
+  "src_bytes": 878293
+ },
+ "fx/mines-drones/attack-drone-512.png": {
+  "src": "fx-v2/mines-drones/attack-drone-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 16870,
+  "src_bytes": 213123
+ },
+ "fx/mines-drones/emp-mine.png": {
+  "src": "fx-v2/mines-drones/emp-mine.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27629,
+  "src_bytes": 1843155
+ },
+ "fx/mines-drones/emp-mine-512.png": {
+  "src": "fx-v2/mines-drones/emp-mine-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27749,
+  "src_bytes": 378346
+ },
+ "fx/mines-drones/proximity-mine.png": {
+  "src": "fx-v2/mines-drones/proximity-mine.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27214,
+  "src_bytes": 1919668
+ },
+ "fx/mines-drones/proximity-mine-512.png": {
+  "src": "fx-v2/mines-drones/proximity-mine-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 27314,
+  "src_bytes": 379354
+ },
+ "fx/mines-drones/repair-drone.png": {
+  "src": "fx-v2/mines-drones/repair-drone.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14392,
+  "src_bytes": 1039934
+ },
+ "fx/mines-drones/repair-drone-512.png": {
+  "src": "fx-v2/mines-drones/repair-drone-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14514,
+  "src_bytes": 197418
+ },
+ "fx/mines-drones/scout-drone.png": {
+  "src": "fx-v2/mines-drones/scout-drone.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21486,
+  "src_bytes": 1340012
+ },
+ "fx/mines-drones/scout-drone-512.png": {
+  "src": "fx-v2/mines-drones/scout-drone-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 21631,
+  "src_bytes": 307094
+ },
+ "fx/misc/beacon.png": {
+  "src": "fx-v2/misc/beacon.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12859,
+  "src_bytes": 314335
+ },
+ "fx/misc/beacon-512.png": {
+  "src": "fx-v2/misc/beacon-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 12921,
+  "src_bytes": 160366
+ },
+ "fx/misc/crystal-cluster.png": {
+  "src": "fx-v2/misc/crystal-cluster.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29716,
+  "src_bytes": 1842378
+ },
+ "fx/misc/crystal-cluster-512.png": {
+  "src": "fx-v2/misc/crystal-cluster-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 29731,
+  "src_bytes": 375688
+ },
+ "fx/misc/satellite.png": {
+  "src": "fx-v2/misc/satellite.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19424,
+  "src_bytes": 1080717
+ },
+ "fx/misc/satellite-512.png": {
+  "src": "fx-v2/misc/satellite-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19904,
+  "src_bytes": 272019
+ },
+ "fx/misc/space-gate.png": {
+  "src": "fx-v2/misc/space-gate.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25421,
+  "src_bytes": 2085406
+ },
+ "fx/misc/space-gate-512.png": {
+  "src": "fx-v2/misc/space-gate-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 25533,
+  "src_bytes": 367908
+ },
+ "fx/powerups/bomb.png": {
+  "src": "fx-v2/powerups/bomb.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15391,
+  "src_bytes": 1163178
+ },
+ "fx/powerups/bomb-512.png": {
+  "src": "fx-v2/powerups/bomb-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15375,
+  "src_bytes": 280876
+ },
+ "fx/powerups/credits.png": {
+  "src": "fx-v2/powerups/credits.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23300,
+  "src_bytes": 1546309
+ },
+ "fx/powerups/credits-512.png": {
+  "src": "fx-v2/powerups/credits-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23351,
+  "src_bytes": 367402
+ },
+ "fx/powerups/health.png": {
+  "src": "fx-v2/powerups/health.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15057,
+  "src_bytes": 1082254
+ },
+ "fx/powerups/health-512.png": {
+  "src": "fx-v2/powerups/health-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 15069,
+  "src_bytes": 281934
+ },
+ "fx/powerups/magnet.png": {
+  "src": "fx-v2/powerups/magnet.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19408,
+  "src_bytes": 1216889
+ },
+ "fx/powerups/magnet-512.png": {
+  "src": "fx-v2/powerups/magnet-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 19512,
+  "src_bytes": 318993
+ },
+ "fx/powerups/repair.png": {
+  "src": "fx-v2/powerups/repair.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18788,
+  "src_bytes": 1432284
+ },
+ "fx/powerups/repair-512.png": {
+  "src": "fx-v2/powerups/repair-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18909,
+  "src_bytes": 309491
+ },
+ "fx/powerups/shield.png": {
+  "src": "fx-v2/powerups/shield.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23804,
+  "src_bytes": 1940212
+ },
+ "fx/powerups/shield-512.png": {
+  "src": "fx-v2/powerups/shield-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 23929,
+  "src_bytes": 380594
+ },
+ "fx/powerups/speed.png": {
+  "src": "fx-v2/powerups/speed.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17282,
+  "src_bytes": 1297458
+ },
+ "fx/powerups/speed-512.png": {
+  "src": "fx-v2/powerups/speed-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 17252,
+  "src_bytes": 296995
+ },
+ "fx/powerups/weapon.png": {
+  "src": "fx-v2/powerups/weapon.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14902,
+  "src_bytes": 940076
+ },
+ "fx/powerups/weapon-512.png": {
+  "src": "fx-v2/powerups/weapon-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14861,
+  "src_bytes": 258795
+ },
+ "fx/projectiles/charge.png": {
+  "src": "fx-v2/projectiles/charge.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 9368,
+  "src_bytes": 822909
+ },
+ "fx/projectiles/charge-512.png": {
+  "src": "fx-v2/projectiles/charge-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 9325,
+  "src_bytes": 156021
+ },
+ "fx/projectiles/laser.png": {
+  "src": "fx-v2/projectiles/laser.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 6876,
+  "src_bytes": 524264
+ },
+ "fx/projectiles/laser-512.png": {
+  "src": "fx-v2/projectiles/laser-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 6995,
+  "src_bytes": 97461
+ },
+ "fx/projectiles/missile.png": {
+  "src": "fx-v2/projectiles/missile.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 6212,
+  "src_bytes": 117798
+ },
+ "fx/projectiles/missile-512.png": {
+  "src": "fx-v2/projectiles/missile-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 6200,
+  "src_bytes": 57611
+ },
+ "fx/projectiles/plasma.png": {
+  "src": "fx-v2/projectiles/plasma.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14632,
+  "src_bytes": 917598
+ },
+ "fx/projectiles/plasma-512.png": {
+  "src": "fx-v2/projectiles/plasma-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 14597,
+  "src_bytes": 166574
+ },
+ "fx/projectiles/rocket.png": {
+  "src": "fx-v2/projectiles/rocket.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 11532,
+  "src_bytes": 1046125
+ },
+ "fx/projectiles/rocket-512.png": {
+  "src": "fx-v2/projectiles/rocket-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 11592,
+  "src_bytes": 131549
+ },
+ "fx/projectiles/torpedo.png": {
+  "src": "fx-v2/projectiles/torpedo.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 8944,
+  "src_bytes": 943352
+ },
+ "fx/projectiles/torpedo-512.png": {
+  "src": "fx-v2/projectiles/torpedo-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 9048,
+  "src_bytes": 113890
+ },
+ "fx/stations/ring-station.png": {
+  "src": "fx-v2/stations/ring-station.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26948,
+  "src_bytes": 2201361
+ },
+ "fx/stations/ring-station-512.png": {
+  "src": "fx-v2/stations/ring-station-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 26905,
+  "src_bytes": 361736
+ },
+ "fx/stations/trading-post.png": {
+  "src": "fx-v2/stations/trading-post.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33840,
+  "src_bytes": 1608742
+ },
+ "fx/stations/trading-post-512.png": {
+  "src": "fx-v2/stations/trading-post-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34025,
+  "src_bytes": 437379
+ },
+ "fx/turrets/laser.png": {
+  "src": "fx-v2/turrets/laser.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18306,
+  "src_bytes": 1377482
+ },
+ "fx/turrets/laser-512.png": {
+  "src": "fx-v2/turrets/laser-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 18324,
+  "src_bytes": 301060
+ },
+ "fx/turrets/missile.png": {
+  "src": "fx-v2/turrets/missile.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 30230,
+  "src_bytes": 1667592
+ },
+ "fx/turrets/missile-512.png": {
+  "src": "fx-v2/turrets/missile-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 30479,
+  "src_bytes": 466614
+ },
+ "fx/turrets/plasma.png": {
+  "src": "fx-v2/turrets/plasma.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33575,
+  "src_bytes": 2225213
+ },
+ "fx/turrets/plasma-512.png": {
+  "src": "fx-v2/turrets/plasma-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 33825,
+  "src_bytes": 498231
+ },
+ "fx/turrets/railgun.png": {
+  "src": "fx-v2/turrets/railgun.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 34894,
+  "src_bytes": 2200177
+ },
+ "fx/turrets/railgun-512.png": {
+  "src": "fx-v2/turrets/railgun-512.png",
+  "w": 256,
+  "h": 256,
+  "bytes": 35166,
+  "src_bytes": 497220
+ }
+}

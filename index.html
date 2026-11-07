@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>STARFALL — Phase 1</title>
+<!-- ui-fonts-wiring: OFL UI fonts shipped in assets/ui/fonts/ (see FONTS-LICENSE.md).
+     Relative paths resolve under both http(s) and file:///android_asset/. -->
+<link rel="preload" href="assets/ui/fonts/orbitron.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/ui/fonts/rajdhani-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/ui/fonts/rajdhani-regular.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ui-fonts-wiring: @font-face lives in index.html (not the stylesheet) so the
+ * fonts are declared before css/style.css applies its font stacks.
+ * Orbitron is a variable font 400-900 (single file); Rajdhani ships as
+ * static Regular 400 + Bold 700. font-display: swap keeps first paint fast. */
+@font-face {
+  font-family: 'Orbitron';
+  src: url('assets/ui/fonts/orbitron.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('assets/ui/fonts/rajdhani-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rajdhani';
+  src: url('assets/ui/fonts/rajdhani-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+</style>
+<link rel="icon" type="image/png" href="assets/ui/favicon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/ui/apple-touch-icon-180.png">
+<meta name="theme-color" content="#0a1226">
+<meta name="apple-mobile-web-app-title" content="STARFALL">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="title-stars" aria-hidden="true"></canvas>
+<div id="title-nebula" aria-hidden="true"></div>
+<canvas id="game"></canvas>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="hud-top">
+    <div id="bars">
+      <div class="bar"><div id="shield-fill" class="bar-fill"></div></div>
+      <div class="bar"><div id="hull-fill" class="bar-fill"></div></div>
+      <div id="hud-crew" class="stat crew-stat">👥 0/0</div>
+    </div>
+    <div id="hud-stats">
+      <div id="hud-system">Solace</div>
+      <div class="stat">◈ <span id="hud-credits">0</span></div>
+      <div class="stat">⛏ <span id="hud-ore">0</span></div>
+      <div id="hud-cargo" class="stat cargo-stat">📦 0/20t</div>
+      <div id="hud-factions" class="stat faction-stat"></div>
+      <div id="hud-karma" class="stat karma-stat"></div>
+    </div>
+    <div id="hud-minimap-wrap">
+      <canvas id="minimap" width="120" height="120"></canvas>
+      <button id="btn-minimap-toggle" class="ui-block" title="toggle minimap">🗺</button>
+    </div>
+  </div>
+  <div id="news-ticker" class="hidden"><div id="news-ticker-track"><span id="news-ticker-inner"></span></div></div>
+  <!-- ui-cleanup-drawer: slim weapon chip + MENU button replace the left column -->
+  <button id="btn-menu" class="btn small ui-block">☰ MENU</button>
+  <button id="weapon-btn" class="btn small ui-block slim-chip">Pulse Laser</button>
+  <!-- ui-cleanup-drawer: slide-over menu drawer; #hud-buttons moved inside, ids/listener wiring unchanged -->
+  <div id="menu-scrim" class="hidden"></div>
+  <div id="menu-drawer">
+    <div id="drawer-head">☰ MENU</div>
+    <!-- hud-declutter-1: standing / karma / XP detail lives here now (mirrored by SF.HUD.update), off the crowded main HUD -->
+    <div id="drawer-stats"></div>
+    <div id="hud-buttons">
+      <button id="btn-map" class="btn small ui-block icon-map">MAP [M]</button>
+      <button id="btn-quests" class="btn small ui-block icon-quests">QUESTS [Q/J]</button>
+      <button id="btn-news" class="btn small ui-block">📡 NEWS [N]</button>
+      <button id="btn-save" class="btn small ui-block">💾 SAVE</button>
+      <button id="btn-mute" class="btn small ui-block">🔊 MUTE</button>
+      <button id="btn-settings" class="btn small ui-block icon-settings">SETTINGS</button>
+      <button id="btn-basics-drawer" class="btn small ui-block">📖 BASICS</button>
+    </div>
+  </div>
+</div>
+
+<!-- touch controls -->
+<div id="joystick" class="hidden"><div id="joy-knob"></div></div>
+<div id="aimstick" class="hidden"><div id="aim-knob"></div></div>
+<button id="btn-fire" class="ui-block">FIRE</button>
+
+<!-- dock prompt -->
+<div id="dock-prompt" class="hidden">
+  <button id="btn-dock" class="btn big ui-block">🛬 DOCK [E]</button>
+</div>
+
+<!-- board prompt (Phase 3) -->
+<div id="board-prompt" class="hidden">
+  <button id="btn-board" class="btn big ui-block">⚔ BOARD [B]</button>
+</div>
+
+<!-- investigate prompt (Phase 5: derelicts / anomaly) -->
+<div id="investigate-prompt" class="hidden">
+  <button id="btn-investigate" class="btn big ui-block">🔍 INVESTIGATE [E]</button>
+</div>
+
+<!-- rescue prompt (Phase 3) -->
+<div id="rescue-prompt" class="hidden">
+  <button id="btn-rescue" class="btn big ui-block">🆘 RESCUE</button>
+</div>
+
+<div id="toast" class="hidden"></div>
+<div id="damage-flash" class="hidden"></div>
+
+<!-- TITLE -->
+<div id="overlay-title" class="overlay title-overlay">
+  <div id="title-hero" aria-hidden="true"></div>
+  <div class="panel title-panel">
+    <h1 class="game-title title-anim">STARFALL</h1>
+    <p class="subtitle">an open-world space shooter — fly, fight, trade, build your ship</p>
+
+    <!-- beta-newgame: primary actions FIRST, above the fold on phone
+         landscape. Previously NEW GAME sat below the pilots box + help
+         text and needed a panel scroll at 800x390. Order only — no
+         button removed, renamed, or rewired. -->
+    <button id="btn-new" class="btn big ui-block icon-play">NEW GAME</button>
+    <button id="btn-continue" class="btn big ui-block">CONTINUE</button>
+
+    <!-- PILOT PROFILES (title-screen-v2) -->
+    <div id="pilots-box">
+      <div class="pilots-head"><span class="pilots-title">👨‍✈️ PILOTS</span><button id="btn-new-pilot" class="btn small ui-block">＋ NEW</button></div>
+      <div id="pilots"></div>
+      <p class="dim pilots-note">each pilot keeps a separate save</p>
+    </div>
+
+    <p class="help">Left thumb: fly &nbsp;·&nbsp; Right thumb: aim + fire<br>WASD + Space on desktop &nbsp;·&nbsp; E docks &nbsp;·&nbsp; B boards &nbsp;·&nbsp; M star map &nbsp;·&nbsp; Q quests</p>
+    <div class="title-row">
+      <button id="btn-notes" class="btn small ui-block">📜 PATCH NOTES</button>
+      <button id="btn-basics-title" class="btn small ui-block">📖 BASICS</button>
+      <button id="title-mute" class="btn small ui-block">🔊 sound on</button>
+      <button id="btn-title-settings" class="btn small ui-block icon-settings">audio</button>
+      <button id="title-quality" class="btn small ui-block">✨ quality: auto</button>
+    </div>
+    <div id="patch-notes" class="hidden"><div id="patch-notes-body"></div></div>
+  </div>
+</div>
+
+<!-- STORE -->
+<div id="overlay-store" class="overlay hidden">
+  <div class="panel wide">
+    <h2 id="store-title">🛰 HAVEN DOCK <span class="dim">— Solace</span></h2>
+    <div id="store-body"></div>
+    <!-- weapons-arsenal: weapon mod fitter modal (child of store so undock hides it) -->
+    <div id="mods-modal" class="panel hidden" style="margin-top:8px"></div>
+    <button id="btn-undock" class="btn big ui-block">LAUNCH →</button>
+  </div>
+</div>
+
+<!-- STARMAP -->
+<div id="overlay-starmap" class="overlay hidden">
+  <div class="panel wide">
+    <h2>★ STAR MAP</h2>
+    <div id="starmap-systems"></div>
+    <p id="starmap-info" class="dim"></p>
+    <button id="btn-starmap-close" class="btn big ui-block">CLOSE [M]</button>
+  </div>
+</div>
+
+<!-- BOARDING (Phase 3) -->
+<div id="overlay-boarding" class="overlay hidden">
+  <div class="panel wide">
+    <h2>⚔ BOARDING ASSAULT</h2>
+    <div id="boarding-body"></div>
+  </div>
+</div>
+
+<!-- QUEST LOG (Phase 4) -->
+<div id="overlay-quests" class="overlay hidden">
+  <div class="panel wide">
+    <h2>📜 QUEST LOG</h2>
+    <div id="quests-body"></div>
+    <button id="btn-quests-close" class="btn big ui-block">CLOSE [Q/J · Esc]</button>
+  </div>
+</div>
+
+<!-- DIALOGUE (Phase 4) -->
+<div id="overlay-dialogue" class="overlay hidden">
+  <div class="panel">
+    <div id="dialogue-body"></div>
+  </div>
+</div>
+
+<!-- INTRO (story-campaign phase: new-game cinematic) -->
+<div id="overlay-intro" class="overlay hidden">
+  <div class="panel wide intro-panel">
+    <div class="intro-kicker">STARFALL</div>
+    <h2 class="intro-title">THE FALL</h2>
+    <div id="intro-text" class="intro-text"></div>
+    <div id="intro-dots" class="intro-dots"></div>
+    <div id="intro-progress" style="font-size:11px;letter-spacing:2px;color:#39d5e8;margin-top:6px"></div>
+    <div class="intro-actions">
+      <button id="btn-intro-skip" class="btn ui-block">SKIP ⏭</button>
+      <button id="btn-intro-next" class="btn big ui-block hidden">BEGIN ▸</button>
+    </div>
+  </div>
+</div>
+
+<!-- SURFACE VIEW (planets-facilities: dockable planets) -->
+<div id="overlay-surface" class="overlay hidden">
+  <div class="panel wide">
+    <div id="surface-body"></div>
+    <button id="btn-liftoff" class="btn big ui-block">🚀 LAUNCH →</button>
+  </div>
+</div>
+
+<!-- NEWS WIRE (planets-facilities) -->
+<div id="overlay-news" class="overlay hidden">
+  <div class="panel wide">
+    <h2>📡 GALACTIC WIRE</h2>
+    <div id="news-body"></div>
+    <button id="btn-news-close" class="btn big ui-block">CLOSE [N]</button>
+  </div>
+</div>
+
+<!-- BLACK MARKET (planets-facilities) -->
+<div id="overlay-blackmarket" class="overlay hidden">
+  <div class="panel wide">
+    <h2 id="blackmarket-title">🕶 BLACK MARKET</h2>
+    <div id="blackmarket-body"></div>
+    <button id="btn-blackmarket-close" class="btn big ui-block">LEAVE</button>
+  </div>
+</div>
+
+<!-- AUDIO SETTINGS (audio-expansion) -->
+<div id="overlay-settings" class="overlay hidden">
+  <div class="panel">
+    <h2>⚙ AUDIO SETTINGS</h2>
+    <div class="set-row"><label for="set-master">MASTER</label><input id="set-master" type="range" min="0" max="100" value="100"><span id="set-master-val" class="set-val">100</span></div>
+    <div class="set-row"><label for="set-sfx">EFFECTS</label><input id="set-sfx" type="range" min="0" max="100" value="100"><span id="set-sfx-val" class="set-val">100</span></div>
+    <div class="set-row"><label for="set-music">MUSIC</label><input id="set-music" type="range" min="0" max="100" value="70"><span id="set-music-val" class="set-val">70</span></div>
+    <div class="set-row set-actions">
+      <button id="set-mute" class="btn small ui-block">🔊 sound on</button>
+      <button id="set-reset" class="btn small ui-block">RESET</button>
+    </div>
+    <!-- mobile-ux-pass: haptics toggle (wired from js/hud.js) -->
+    <div class="set-row set-actions">
+      <button id="set-haptics" class="btn small ui-block">📳 haptics on</button>
+    </div>
+    <button id="set-close" class="btn big ui-block">CLOSE</button>
+  </div>
+</div>
+
+<!-- GAME OVER -->
+<div id="overlay-gameover" class="overlay hidden">
+  <div class="panel">
+    <h1 class="game-title red">SHIP LOST</h1>
+    <p id="gameover-stats"></p>
+    <button id="btn-respawn" class="btn big ui-block">RESPAWN AT HAVEN DOCK</button>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/space.js"></script><!-- open-space-1: SF.Space region/deep-space frame (loads after data.js) -->
+<script src="js/dialog.js"></script><!-- dialog-sweep-1: SF.Dialog DOM modal (window.confirm/prompt/alert are dead in the Android shell) -->
+<script src="js/audio.js"></script>
+<script src="js/sprites.js"></script><!-- asset-loader-infra: cached file-sprite loader (SF.Sprites) -->
+<script src="js/input.js"></script>
+<script src="js/projectiles.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/pickups.js"></script>
+<script src="js/asteroids.js"></script>
+<script src="js/enemies.js"></script>
+<script src="js/parts.js"></script>
+<script src="js/upgrade.js"></script>
+<script src="js/mods.js"></script>
+<script src="js/crew.js"></script>
+<script src="js/ship.js"></script>
+<script src="js/builder.js"></script>
+<script src="js/boarding.js"></script>
+<script src="js/factions.js"></script>
+<script src="js/quests.js"></script>
+<script src="js/npcs.js"></script>
+<script src="js/gameplay.js"></script><!-- gameplay-depth: encounters v2 + bounty board -->
+<script src="js/crafting.js"></script>
+<script src="js/trading.js"></script>
+<script src="js/secrets.js"></script>
+<script src="js/secrets2.js"></script>
+<script src="js/planets.js"></script><!-- planets-facilities: planets + faction HQs -->
+<script src="js/news.js"></script><!-- planets-facilities: galactic wire -->
+<script src="js/blackmarket.js"></script><!-- planets-facilities: contraband market -->
+<script src="js/station.js"></script>
+<script src="js/starmap.js"></script>
+<script src="js/save.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/campaign.js"></script>
+<script src="js/codex.js"></script><!-- codex-bestiary: loader line (audit-20261021-1440) -->
+<script src="js/shop.js"></script><!-- shop-launch: premium shop + redeem codes -->
+<script src="js/main.js"></script>
+
+<script>
+/* STARFALL title-screen-v2 (coordinator phase; index.html scope only)
+ * - Animated title starfield (cheap 2D canvas drift + CSS nebula behind it)
+ * - Pilot profiles in localStorage 'starfall_pilots_v1'; the active pilot's
+ *   save is namespaced per pilot. js/save.js is OUT OF SCOPE, so saves are
+ *   namespaced via mirror keys: canonical 'starfall_save_v1' is the live
+ *   working key; each pilot owns 'starfall_save_v1_p_<id>'. Switching pilots
+ *   syncs out the old pilot and syncs in the new one. Save-neutral: no
+ *   schema bump, no migration changes.
+ * - Patch-notes panel rendered from a static NOTES array.
+ */
+(function () {
+  'use strict';
+  function gid(id) { return document.getElementById(id); }
+  function each(arr, fn) { for (var i = 0; i < arr.length; i++) fn(arr[i], i); }
+
+  /* ---------------- title starfield (cheap, mobile-safe) ---------------- */
+  var cv = gid('title-stars'), ctx = null, stars = [], running = false, rafOn = false, W = 0, H = 0;
+  /* b3-environment: the preloaded title_nebula art, painted cover-fit
+   * UNDER the drifting stars on this canvas. This canvas (z-index 40,
+   * opaque #020409 CSS background) is what the title screen actually
+   * shows — the #game canvas is display:none on title, so painting the
+   * vista there alone (main.js TITLE branch) would be invisible. The
+   * image is fetched once, lazily; until it decodes, the old stars-only
+   * backdrop is the fallback (nothing blanks). */
+  var titleNebulaImg = null;
+  function titleNebula() {
+    if (!titleNebulaImg) {
+      try { titleNebulaImg = new Image(); titleNebulaImg.src = 'assets/bg/title_nebula.webp'; } catch (e) {}
+    }
+    return titleNebulaImg;
+  }
+  window.__b3TitleNebula = function () {
+    var im = titleNebulaImg;
+    return !!(im && im.complete && im.naturalWidth);
+  };
+  function sizeCanvas() {
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = Math.max(1, window.innerWidth); H = Math.max(1, window.innerHeight);
+    cv.width = Math.floor(W * dpr); cv.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function seedStars() {
+    stars = [];
+    var n = Math.max(60, Math.min(170, Math.floor(W * H / 9000))); // ~1 star per 9000px²
+    for (var i = 0; i < n; i++) {
+      var layer = Math.random() < 0.25 ? 2 : (Math.random() < 0.5 ? 1 : 0);
+      stars.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: 0.5 + Math.random() * 1.3 + layer * 0.5,
+        vx: (4 + layer * 9) / 60,          // drift px/frame @60fps
+        vy: (1.5 + layer * 3) / 60,
+        tw: Math.random() * Math.PI * 2,   // twinkle phase
+        ts: 0.5 + Math.random() * 2,        // twinkle speed
+        a: 0.35 + Math.random() * 0.55
+      });
+    }
+  }
+  function drawStars(t) {
+    ctx.clearRect(0, 0, W, H);
+    /* b3-environment: title vista first (cover-fit, cropped on the long
+     * axis so it reads the same at 915x412, 800x390 and portrait). */
+    var neb = titleNebula();
+    if (neb && neb.complete && neb.naturalWidth) {
+      var ns = Math.max(W / neb.naturalWidth, H / neb.naturalHeight);
+      var ndw = neb.naturalWidth * ns, ndh = neb.naturalHeight * ns;
+      ctx.drawImage(neb, (W - ndw) / 2, (H - ndh) / 2, ndw, ndh);
+    }
+    each(stars, function (s) {
+      s.x -= s.vx; s.y -= s.vy;
+      if (s.x < -4) { s.x = W + 4; s.y = Math.random() * H; }
+      if (s.y < -4) { s.y = H + 4; s.x = Math.random() * W; }
+      var tw = 0.6 + 0.4 * Math.sin(t / 1000 * s.ts + s.tw);
+      ctx.globalAlpha = s.a * tw;
+      ctx.fillStyle = '#cfe8ff';
+      ctx.fillRect(s.x, s.y, s.r, s.r);
+    });
+    ctx.globalAlpha = 1;
+  }
+  function loop(t) {
+    if (!running) { rafOn = false; return; }
+    drawStars(t || 0);
+    requestAnimationFrame(loop);
+  }
+  function kick() { if (running && !rafOn) { rafOn = true; requestAnimationFrame(loop); } }
+
+  /* ---------------- pilot profiles ---------------- */
+  var PKEY = 'starfall_pilots_v1';
+  var CANON = 'starfall_save_v1';
+  var PPREFIX = 'starfall_save_v1_p_';
+  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+  function lsDel(k) { try { window.localStorage.removeItem(k); } catch (e) {} }
+  function pilotKey(id) { return PPREFIX + id; }
+  function newId() { return Date.now().toString(36) + Math.floor(Math.random() * 46656).toString(36); }
+  function loadData() {
+    try {
+      var d = JSON.parse(lsGet(PKEY));
+      if (d && Array.isArray(d.pilots)) {
+        each(d.pilots, function (p) { p.name = String(p.name || 'pilot').slice(0, 16); });
+        return d;
+      }
+    } catch (e) {}
+    return { pilots: [], active: null };
+  }
+  function persist(d) { lsSet(PKEY, JSON.stringify(d)); }
+  function findPilot(d, id) { for (var i = 0; i < d.pilots.length; i++) if (d.pilots[i].id === id) return d.pilots[i]; return null; }
+  function cleanName(n) { return String(n == null ? '' : n).replace(/[\u0000-\u001f]/g, '').trim().slice(0, 16); }
+  function syncOut(d) { // canonical working save -> active pilot's namespaced key
+    var p = findPilot(d, d.active);
+    if (!p) return;
+    var raw = lsGet(CANON);
+    if (raw) lsSet(pilotKey(p.id), raw); else lsDel(pilotKey(p.id));
+    p.lastPlayed = Date.now();
+  }
+  function syncIn(d) { // active pilot's namespaced key -> canonical working save
+    var p = findPilot(d, d.active);
+    var raw = p ? lsGet(pilotKey(p.id)) : null;
+    if (raw) lsSet(CANON, raw); else lsDel(CANON);
+  }
+  function refreshContinue() {
+    var b = gid('btn-continue');
+    if (b && window.SF && SF.Save) b.disabled = !SF.Save.has();
+  }
+  function renderPilots() {
+    var box = gid('pilots');
+    if (!box) return;
+    box.innerHTML = '';
+    each(cur.pilots, function (p) {
+      var row = document.createElement('div');
+      row.className = 'pilot-row' + (p.id === cur.active ? ' active' : '');
+      var has = !!lsGet(pilotKey(p.id));
+      var nm = document.createElement('span');
+      nm.className = 'pilot-name';
+      nm.textContent = (p.id === cur.active ? '▸ ' : '') + p.name;
+      var badge = document.createElement('span');
+      badge.className = 'pilot-badge';
+      badge.textContent = has ? '💾 save' : '· new';
+      var spacer = document.createElement('span');
+      spacer.className = 'pilot-spacer';
+      var ren = document.createElement('button');
+      ren.className = 'btn small pilot-tool'; ren.textContent = '✎';
+      ren.title = 'rename pilot';
+      ren.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        /* dialog-sweep-1: SF.Dialog modal, not window.prompt (dead on device) */
+        SF.Dialog.prompt('Pilot name:', p.name, function (v) {
+          var n = cleanName(v);
+          if (n) { p.name = n; persist(cur); renderPilots(); }
+        });
+      });
+      var del = document.createElement('button');
+      del.className = 'btn small pilot-tool danger'; del.textContent = '🗑';
+      del.title = 'delete pilot';
+      del.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        /* dialog-sweep-1: SF.Dialog modal, not window.confirm (dead on device) */
+        SF.Dialog.confirm('Delete pilot "' + p.name + '" and its save?', function () { deletePilot(p.id); });
+      });
+      row.appendChild(nm); row.appendChild(badge); row.appendChild(spacer);
+      row.appendChild(ren); row.appendChild(del);
+      row.addEventListener('click', function () { switchPilot(p.id); });
+      box.appendChild(row);
+    });
+  }
+  function switchPilot(id) {
+    if (!findPilot(cur, id) || id === cur.active) return;
+    syncOut(cur);
+    cur.active = id;
+    syncIn(cur);
+    persist(cur);
+    refreshContinue();
+    renderPilots();
+  }
+  function createPilot(name) {
+    name = cleanName(name) || 'Pilot ' + (cur.pilots.length + 1);
+    syncOut(cur);
+    var p = { id: newId(), name: name, created: Date.now(), lastPlayed: 0 };
+    cur.pilots.push(p);
+    cur.active = p.id;
+    syncIn(cur); // no save yet -> canonical cleared
+    persist(cur);
+    refreshContinue();
+    renderPilots();
+  }
+  function deletePilot(id) {
+    var i, p = null;
+    for (i = 0; i < cur.pilots.length; i++) if (cur.pilots[i].id === id) { p = cur.pilots[i]; break; }
+    if (!p) return;
+    if (cur.active === id) { syncOut(cur); }
+    lsDel(pilotKey(id));
+    cur.pilots.splice(i, 1);
+    if (cur.pilots.length === 0) {
+      var np = { id: newId(), name: 'Pilot 1', created: Date.now(), lastPlayed: 0 };
+      cur.pilots.push(np);
+      cur.active = np.id;
+      lsDel(CANON);
+    } else if (cur.active === id) {
+      cur.active = cur.pilots[0].id;
+      syncIn(cur);
+    }
+    persist(cur);
+    refreshContinue();
+    renderPilots();
+  }
+  var cur = loadData();
+  function adoptIfFresh() {
+    // First run ever: adopt the existing canonical save as "Pilot 1"'s save.
+    if (cur.pilots.length === 0) {
+      var p = { id: newId(), name: 'Pilot 1', created: Date.now(), lastPlayed: Date.now() };
+      var raw = lsGet(CANON);
+      if (raw) lsSet(pilotKey(p.id), raw);
+      cur.pilots.push(p);
+      cur.active = p.id;
+      persist(cur);
+    } else if (!findPilot(cur, cur.active)) {
+      cur.active = cur.pilots[0].id;
+      persist(cur);
+    }
+    syncIn(cur); // canonical mirrors the active pilot
+  }
+  function wrapSaves() {
+    // js/save.js is out of scope: wrap its methods so the namespaced mirror
+    // keys stay in sync without touching the save module or schema.
+    if (!window.SF || !SF.Save || SF.PilotsWrapped) return;
+    SF.PilotsWrapped = true;
+    var _save = SF.Save.save, _wipe = SF.Save.wipe;
+    SF.Save.save = function () {
+      var r = _save();
+      try { syncOut(cur); persist(cur); } catch (e) {}
+      return r;
+    };
+    SF.Save.wipe = function () {
+      _wipe();
+      try { var p = findPilot(cur, cur.active); if (p) lsDel(pilotKey(p.id)); } catch (e) {}
+    };
+  }
+
+  /* ---------------- patch notes ---------------- */
+  var NOTES = [
+    { v: 'Title v2 + Pilot Profiles', items: [
+      'animated starfield + nebula backdrop behind the title',
+      'multiple pilot profiles — create, rename, delete, switch',
+      'each pilot keeps a fully separate save',
+      'patch-notes panel (this one)'
+    ] },
+    { v: 'Skills system', items: [
+      'pilot skill trees with XP, levels and skill points',
+      'skills persist through the save migration chain'
+    ] },
+    { v: 'Planets & facilities', items: [
+      'dockable planets, faction HQs, galactic wire news feed',
+      'black market for contraband traders'
+    ] },
+    { v: 'Gameplay depth', items: [
+      'random encounter variety, elite enemies, bounty board',
+      'boss encounters and station defense events'
+    ] },
+    { v: 'Story campaign', items: [
+      'new-game cinematic intro, main quest arc with dialogue',
+      'secrets, easter eggs and hidden anomalies'
+    ] }
+  ];
+  function renderNotes() {
+    var body = gid('patch-notes-body');
+    if (!body) return;
+    body.innerHTML = '';
+    each(NOTES, function (sec) {
+      var h = document.createElement('div');
+      h.className = 'notes-ver'; h.textContent = sec.v;
+      body.appendChild(h);
+      var ul = document.createElement('ul');
+      ul.className = 'notes-list';
+      each(sec.items, function (it) {
+        var li = document.createElement('li'); li.textContent = it;
+        ul.appendChild(li);
+      });
+      body.appendChild(ul);
+    });
+  }
+
+  /* ---------------- wire-up ---------------- */
+  function init() {
+    ctx = cv.getContext('2d');
+    sizeCanvas(); seedStars();
+    window.addEventListener('resize', function () { sizeCanvas(); seedStars(); });
+    adoptIfFresh();
+    wrapSaves();
+    renderPilots();
+    renderNotes();
+    refreshContinue();
+    var np = gid('btn-new-pilot');
+    if (np) np.addEventListener('click', function () {
+      /* dialog-sweep-1: SF.Dialog modal, not window.prompt (dead on device);
+       * cancel simply never fires the callback, same as the old null check */
+      SF.Dialog.prompt('New pilot callsign:', 'Pilot ' + (cur.pilots.length + 1), function (n) {
+        createPilot(n);
+      });
+    });
+    var nb = gid('btn-notes');
+    if (nb) nb.addEventListener('click', function () {
+      var p = gid('patch-notes');
+      if (p) p.classList.toggle('hidden');
+    });
+    // show the starfield only while the title overlay is up; cheap everywhere else
+    var title = gid('overlay-title'), neb = gid('title-nebula'), game = gid('game');
+    function paint() {
+      var on = title && !title.classList.contains('hidden');
+      cv.style.display = on ? 'block' : 'none';
+      if (neb) neb.style.display = on ? 'block' : 'none';
+      if (game) game.style.display = on ? 'none' : 'block';
+      running = !!on;
+      kick();
+    }
+    if (title && window.MutationObserver) {
+      new MutationObserver(paint).observe(title, { attributes: true, attributeFilter: ['class'] });
+    }
+    paint();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+
+  window.SF = window.SF || {};
+  SF.Pilots = {
+    list: function () { return cur.pilots.slice(); },
+    active: function () { return findPilot(cur, cur.active); },
+    create: createPilot,
+    switchTo: switchPilot,
+    remove: deletePilot,
+    saveKeyFor: pilotKey,
+    refresh: function () { refreshContinue(); renderPilots(); }
+  };
+})();
+</script>
+</body>
+</html>
